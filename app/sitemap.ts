@@ -2,19 +2,33 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://b2blast.com";
-  const pages = ["", "/services", "/resources", "/about", "/contact", "/blog"];
-  const entries: MetadataRoute.Sitemap = [];
+  const pages = ["", "/services", "/about", "/contact", "/resources", "/blog", "/privacy", "/legal"];
+  const now = new Date().toISOString();
 
-  for (const p of pages) {
-    for (const locale of ["en", "fr"]) {
-      entries.push({
-        url: `${base}/${locale}${p}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: p === "" ? 1 : 0.8,
-        alternates: { languages: { en: `${base}/en${p}`, fr: `${base}/fr${p}` } },
-      });
-    }
-  }
-  return entries;
+  return pages.flatMap((page) => [
+    {
+      url: `${base}/en${page}`,
+      lastModified: now,
+      changeFrequency: page === "" ? "weekly" : "monthly",
+      priority: page === "" ? 1 : page === "/services" ? 0.9 : 0.7,
+      alternates: {
+        languages: {
+          en: `${base}/en${page}`,
+          fr: `${base}/fr${page}`,
+        },
+      },
+    },
+    {
+      url: `${base}/fr${page}`,
+      lastModified: now,
+      changeFrequency: page === "" ? "weekly" : "monthly",
+      priority: page === "" ? 1 : page === "/services" ? 0.9 : 0.7,
+      alternates: {
+        languages: {
+          en: `${base}/en${page}`,
+          fr: `${base}/fr${page}`,
+        },
+      },
+    },
+  ]);
 }
