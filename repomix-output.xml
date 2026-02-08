@@ -1,0 +1,2418 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+app/
+  api/
+    contact/
+      route.ts
+  en/
+    about/
+      page.tsx
+    blog/
+      page.tsx
+    contact/
+      page.tsx
+    services/
+      page.tsx
+    layout.tsx
+    page.tsx
+  fr/
+    about/
+      page.tsx
+    blog/
+      page.tsx
+    contact/
+      page.tsx
+    services/
+      page.tsx
+    layout.tsx
+    page.tsx
+  favicon.ico
+  globals.css
+  layout.tsx
+  page.tsx
+  robots.ts
+  sitemap.ts
+components/
+  layout/
+    Footer.tsx
+    Header.tsx
+  ui/
+    AnimatedStat.tsx
+    ScrollReveal.tsx
+    TiltCard.tsx
+  StructuredData.tsx
+lib/
+  content.ts
+  useCountUp.ts
+  useScrollReveal.ts
+public/
+  images/
+    platforms/
+      google.png
+      linkedin.png
+      meta.png
+      microsoft.png
+      pinterest.png
+      reddit.png
+      x.png
+    logo.png
+  file.svg
+  globe.svg
+  next.svg
+  vercel.svg
+  window.svg
+.gitignore
+eslint.config.mjs
+middleware.ts
+next.config.ts
+package.json
+postcss.config.mjs
+README.md
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="app/api/contact/route.ts">
+import { NextResponse } from "next/server";
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { name, email, company, message } = body;
+
+    if (!name || !email || !message) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    console.log("📬 New contact form submission:", {
+      name, email, company, message,
+      timestamp: new Date().toISOString(),
+    });
+
+    // TODO: Resend integration
+    // import { Resend } from 'resend';
+    // const resend = new Resend(process.env.RESEND_API_KEY);
+    // await resend.emails.send({
+    //   from: 'B2BLAST <noreply@b2blast.com>',
+    //   to: 'thomas@b2blast.com',
+    //   subject: `New inquiry from ${name} (${company})`,
+    //   html: `<h2>New Contact</h2><p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Company:</strong> ${company}</p><p><strong>Message:</strong> ${message}</p>`,
+    // });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Contact form error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+</file>
+
+<file path="app/en/about/page.tsx">
+import Link from "next/link";
+import { getContent } from "@/lib/content";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "About Thomas Germain", description: "Native bilingual French/English B2B ads expert. Ex-LinkedIn, ex-Google, ex-Pinterest. Based in Dublin." };
+
+export default function AboutEN() {
+  const t = getContent("en");
+  return (
+    <>
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.about.title}</h1>
+          <p className="mt-6 text-lg text-gray-400 leading-relaxed max-w-2xl">{t.about.intro}</p>
+        </div>
+      </section>
+      <section className="pb-16 sm:pb-20 bg-black">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <h2 className="font-heading text-2xl font-bold text-white mb-8">Experience</h2>
+          <div className="space-y-6">
+            {t.about.experience.map((exp) => (
+              <div key={exp.company} className="flex gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover">
+                <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-brand/10">
+                  <span className="font-heading text-sm font-bold text-brand">{exp.company.slice(0, 2).toUpperCase()}</span>
+                </div>
+                <div>
+                  <h3 className="font-heading font-semibold text-white">{exp.role} <span className="text-brand">@ {exp.company}</span></h3>
+                  <p className="text-sm text-gray-500 mt-0.5">{exp.duration}</p>
+                  <p className="text-gray-400 mt-2">{exp.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="pb-16 sm:pb-20 bg-black">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-8 sm:p-10">
+            <h2 className="font-heading text-xl font-bold text-white mb-3">Location & Availability</h2>
+            <p className="text-gray-400 leading-relaxed">{t.about.location}</p>
+          </div>
+        </div>
+      </section>
+      <section className="pb-20 sm:pb-28 bg-black">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center">
+            <h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p>
+            <Link href="/en/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+</file>
+
+<file path="app/en/blog/page.tsx">
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Blog", description: "B2B paid ads insights for French ↔ English markets." };
+
+export default function BlogEN() {
+  return (
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">Blog</h1>
+        <p className="mt-4 text-lg text-gray-400">Coming soon — B2B ads insights for companies expanding between French and English markets.</p>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/en/contact/page.tsx">
+"use client";
+
+import { useState } from "react";
+import { getContent } from "@/lib/content";
+
+export default function ContactEN() {
+  const t = getContent("en");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      company: (form.elements.namedItem("company") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+    try {
+      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (res.ok) setSubmitted(true);
+    } catch { /* silent */ } finally { setLoading(false); }
+  }
+
+  return (
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.contact.title}</h1>
+          <p className="mt-3 text-lg text-gray-400">{t.contact.subtitle}</p>
+        </div>
+
+        {submitted ? (
+          <div className="rounded-2xl bg-brand/10 border border-brand/30 p-8 text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand/20 mb-4">
+              <svg className="h-6 w-6 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            </div>
+            <p className="font-heading text-lg font-semibold text-white">{t.contact.form.success}</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.name}</label>
+              <input type="text" id="name" name="name" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.email}</label>
+              <input type="email" id="email" name="email" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" />
+            </div>
+            <div>
+              <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.company}</label>
+              <input type="text" id="company" name="company" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" />
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.message}</label>
+              <textarea id="message" name="message" rows={5} required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors resize-none" />
+            </div>
+            <button type="submit" disabled={loading} className="btn-magnetic w-full rounded-lg bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30 hover:bg-brand-light transition-all disabled:opacity-60 disabled:cursor-not-allowed">
+              {loading ? "..." : t.contact.form.submit}
+            </button>
+          </form>
+        )}
+
+        <div className="mt-10 pt-8 border-t border-white/5 text-center">
+          <a href="mailto:thomas@b2blast.com" className="text-sm font-medium text-brand hover:text-brand-light transition-colors">thomas@b2blast.com</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/en/services/page.tsx">
+import Link from "next/link";
+import Image from "next/image";
+import { getContent } from "@/lib/content";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Services", description: "B2B paid ads management on LinkedIn, Google, Microsoft & Reddit. Bilingual French ↔ English expertise." };
+
+export default function ServicesEN() {
+  const t = getContent("en");
+  return (
+    <>
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.services.title}</h1>
+            <p className="mt-4 text-lg text-gray-400 leading-relaxed">{t.services.subtitle}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-16 sm:pb-20 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {t.services.platforms.map((p) => (
+              <div key={p.name} className="rounded-xl border border-white/10 bg-white/[0.03] p-6 card-hover">
+                <div className="flex items-center gap-3 mb-2">
+                  <Image src={`/images/platforms/${p.icon}.png`} alt={p.name} width={24} height={24} className="h-6 w-6 rounded" />
+                  <h3 className="font-heading text-lg font-semibold text-white">{p.name}</h3>
+                </div>
+                <p className="text-sm text-gray-500">{p.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-3 gap-6">
+            {t.services.packages.map((pkg) => (
+              <div key={pkg.name} className={`relative rounded-2xl p-6 sm:p-8 ${pkg.popular ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20" : "bg-white/[0.03] border border-white/10"}`}>
+                {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand">Most Popular</span>}
+                <h3 className="font-heading text-lg font-semibold text-white">{pkg.name}</h3>
+                <p className="mt-3"><span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>{pkg.period}</span></p>
+                <ul className="mt-6 space-y-3">{pkg.features.map((f) => (<li key={f} className="flex items-start gap-2"><svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span></li>))}</ul>
+                <Link href="/en/contact" className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold ${pkg.popular ? "bg-white text-brand hover:bg-gray-100" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white tracking-tight mb-8">{t.services.includes.title}</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {t.services.includes.items.map((item) => (
+              <div key={item} className="flex items-start gap-3 rounded-xl bg-white/[0.03] border border-white/5 p-5">
+                <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                <span className="text-sm text-gray-400">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-20 sm:pb-28 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center">
+            <h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2>
+            <p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p>
+            <Link href="/en/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+</file>
+
+<file path="app/en/layout.tsx">
+import type { Metadata } from "next";
+import { Sora, DM_Sans } from "next/font/google";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { OrganizationSchema } from "@/components/StructuredData";
+
+const sora = Sora({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700"] });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
+
+export const metadata: Metadata = {
+  title: { default: "B2BLAST - B2B Paid Ads French ↔ English Markets", template: "%s | B2BLAST" },
+  description: "Native bilingual B2B paid ads expert. LinkedIn, Google, Microsoft Ads for French SaaS expanding to UK/US and international companies entering France.",
+  keywords: ["B2B ads", "LinkedIn ads", "Google ads B2B", "bilingual marketing", "French SaaS", "international expansion"],
+  authors: [{ name: "Thomas Germain", url: "https://b2blast.com/en/about" }],
+  creator: "Thomas Germain",
+  publisher: "B2BLAST",
+  robots: "index, follow",
+  openGraph: { type: "website", locale: "en_US", alternateLocale: ["fr_FR"], url: "https://b2blast.com/en", siteName: "B2BLAST", title: "B2BLAST - B2B Paid Ads French ↔ English Markets", description: "Native bilingual B2B paid ads expert.", images: [{ url: "/og-image-en.png", width: 1200, height: 630, alt: "B2BLAST - B2B Paid Ads" }] },
+  twitter: { card: "summary_large_image", title: "B2BLAST - B2B Paid Ads", description: "Native bilingual B2B paid ads expert.", images: ["/og-image-en.png"] },
+  alternates: { canonical: "https://b2blast.com/en", languages: { en: "https://b2blast.com/en", fr: "https://b2blast.com/fr" } },
+};
+
+export default function EnLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={`${sora.variable} ${dmSans.variable}`}>
+      <body className="grain font-body bg-black text-white antialiased">
+        <a href="#main" className="skip-link">Skip to main content</a>
+        <OrganizationSchema />
+        <Header locale="en" />
+        <main id="main">{children}</main>
+        <Footer locale="en" />
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="app/en/page.tsx">
+import Link from "next/link";
+import Image from "next/image";
+import { getContent } from "@/lib/content";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import TiltCard from "@/components/ui/TiltCard";
+import AnimatedStat from "@/components/ui/AnimatedStat";
+
+const platformLogos = [
+  { name: "LinkedIn", src: "/images/platforms/linkedin.png" },
+  { name: "Google", src: "/images/platforms/google.png" },
+  { name: "Pinterest", src: "/images/platforms/pinterest.png" },
+  { name: "Meta", src: "/images/platforms/meta.png" },
+];
+
+export default function HomeEN() {
+  const t = getContent("en");
+
+  return (
+    <>
+      {/* ==================== HERO ==================== */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-black">
+        {/* Ambient orbs */}
+        <div className="absolute top-20 right-[10%] w-[500px] h-[500px] bg-brand/10 rounded-full blur-[120px] animate-pulse-glow" />
+        <div className="absolute bottom-10 left-[5%] w-[400px] h-[400px] bg-brand/5 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[150px]" />
+
+        {/* Grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-32 sm:py-40">
+          <div className="max-w-3xl">
+            {/* Badge */}
+            <div className="hero-animate hero-delay-1 inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand-light mb-8">
+              <span className="inline-block w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
+              B2B Only — French ↔ English
+            </div>
+
+            {/* H1 */}
+            <h1 className="hero-animate hero-delay-2 font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.05]">
+              {t.hero.title}
+            </h1>
+
+            {/* Sub-hero — pain point */}
+            <p className="hero-animate hero-delay-3 mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">
+              {t.hero.subtitle}
+            </p>
+
+            {/* Description */}
+            <p className="hero-animate hero-delay-4 mt-3 text-base text-brand-light font-medium">
+              {t.hero.description}
+            </p>
+
+            {/* CTAs */}
+            <div className="hero-animate hero-delay-5 mt-10 flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/en/contact"
+                className="btn-magnetic inline-flex items-center justify-center rounded-lg bg-brand px-7 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30"
+              >
+                {t.hero.cta}
+                <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
+              <Link
+                href="/en/services"
+                className="inline-flex items-center justify-center rounded-lg border border-gray-700 px-7 py-4 text-base font-semibold text-gray-300 hover:border-brand/50 hover:text-white transition-all"
+              >
+                {t.hero.ctaSecondary}
+              </Link>
+            </div>
+          </div>
+
+          {/* Trust bar — real logos */}
+          <div className="hero-animate hero-delay-6 mt-20 pt-8 border-t border-white/5">
+            <p className="text-xs uppercase tracking-[0.2em] text-gray-600 font-medium mb-5">
+              {t.trust.label}
+            </p>
+            <div className="flex flex-wrap items-center gap-8">
+              {platformLogos.map((logo) => (
+                <Image
+                  key={logo.name}
+                  src={logo.src}
+                  alt={logo.name}
+                  width={36}
+                  height={36}
+                  className="h-8 w-8 rounded-md opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== PROBLEM ==================== */}
+      <section className="py-24 sm:py-32 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="max-w-2xl mb-14">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                {t.problem.title}
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid sm:grid-cols-2 gap-6">
+            {t.problem.items.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 100}>
+                <TiltCard
+                  className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover h-full"
+                  tiltAmount={4}
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-brand/10 text-brand text-sm font-bold">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <h3 className="font-heading text-lg font-semibold text-white mb-2">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-400 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </TiltCard>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== SOLUTION + STATS ==================== */}
+      <section className="py-24 sm:py-32 bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="max-w-2xl mb-14">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-black tracking-tight">
+                {t.solution.title}
+              </h2>
+              <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+                {t.solution.subtitle}
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {t.solution.stats.map((stat, i) => (
+              <ScrollReveal key={i} delay={i * 120} direction="scale">
+                <AnimatedStat value={stat.value} label={stat.label} />
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== SERVICES ==================== */}
+      <section className="py-24 sm:py-32 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-14">
+              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                {t.services.title}
+              </h2>
+              <p className="mt-3 text-lg text-gray-400">
+                {t.services.subtitle}
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Platforms */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+            {t.services.platforms.map((platform, i) => (
+              <ScrollReveal key={platform.name} delay={i * 80}>
+                <TiltCard
+                  className="rounded-xl border border-white/10 bg-white/[0.03] p-5 card-hover h-full"
+                  tiltAmount={5}
+                  glare={false}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <Image
+                      src={`/images/platforms/${platform.icon}.png`}
+                      alt={platform.name}
+                      width={24}
+                      height={24}
+                      className="h-6 w-6 rounded"
+                    />
+                    <h3 className="font-heading font-semibold text-white">
+                      {platform.name}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-gray-500">{platform.description}</p>
+                </TiltCard>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          {/* Pricing cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {t.services.packages.map((pkg, i) => (
+              <ScrollReveal key={pkg.name} delay={i * 120}>
+                <TiltCard
+                  className={`relative rounded-2xl p-6 sm:p-8 h-full ${
+                    pkg.popular
+                      ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20"
+                      : "bg-white/[0.03] border border-white/10"
+                  }`}
+                  tiltAmount={3}
+                >
+                  {pkg.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand shadow-lg">
+                      Most Popular
+                    </span>
+                  )}
+                  <h3 className={`font-heading text-lg font-semibold ${pkg.popular ? "text-white" : "text-white"}`}>
+                    {pkg.name}
+                  </h3>
+                  <p className="mt-3">
+                    <span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>
+                      {pkg.price}
+                    </span>
+                    <span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>
+                      {pkg.period}
+                    </span>
+                  </p>
+                  <ul className="mt-6 space-y-3">
+                    {pkg.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2">
+                        <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                        <span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    href="/en/contact"
+                    className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold transition-all ${
+                      pkg.popular
+                        ? "bg-white text-brand hover:bg-gray-100"
+                        : "bg-brand text-white hover:bg-brand-light"
+                    }`}
+                  >
+                    {pkg.cta}
+                  </Link>
+                </TiltCard>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== CTA ==================== */}
+      <section className="py-24 sm:py-32 bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal direction="scale">
+            <div className="relative overflow-hidden rounded-3xl bg-black px-8 py-20 sm:px-16 sm:py-24 text-center">
+              {/* Orbs */}
+              <div className="absolute top-0 right-0 w-80 h-80 bg-brand/20 rounded-full blur-[100px] animate-pulse-glow" />
+              <div className="absolute bottom-0 left-0 w-60 h-60 bg-brand/10 rounded-full blur-[80px]" />
+
+              <div className="relative">
+                <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+                  {t.cta.title}
+                </h2>
+                <p className="mx-auto mt-5 max-w-xl text-lg text-gray-400 leading-relaxed">
+                  {t.cta.subtitle}
+                </p>
+                <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Link
+                    href="/en/contact"
+                    className="btn-magnetic inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30"
+                  >
+                    {t.cta.button}
+                    <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </Link>
+                  <a href={`mailto:${t.cta.email}`} className="text-sm text-gray-500 hover:text-brand transition-colors">
+                    {t.cta.email}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+    </>
+  );
+}
+</file>
+
+<file path="app/fr/about/page.tsx">
+import Link from "next/link";
+import { getContent } from "@/lib/content";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "À propos de Thomas Germain", description: "Expert ads B2B bilingue natif français/anglais. Ex-LinkedIn, ex-Google, ex-Pinterest. Basé à Dublin." };
+
+export default function AboutFR() {
+  const t = getContent("fr");
+  return (
+    <>
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.about.title}</h1><p className="mt-6 text-lg text-gray-400 leading-relaxed max-w-2xl">{t.about.intro}</p></div></section>
+      <section className="pb-16 sm:pb-20 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><h2 className="font-heading text-2xl font-bold text-white mb-8">Expérience</h2><div className="space-y-6">{t.about.experience.map((exp) => (<div key={exp.company} className="flex gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover"><div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-brand/10"><span className="font-heading text-sm font-bold text-brand">{exp.company.slice(0, 2).toUpperCase()}</span></div><div><h3 className="font-heading font-semibold text-white">{exp.role} <span className="text-brand">@ {exp.company}</span></h3><p className="text-sm text-gray-500 mt-0.5">{exp.duration}</p><p className="text-gray-400 mt-2">{exp.detail}</p></div></div>))}</div></div></section>
+      <section className="pb-16 sm:pb-20 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-2xl bg-white/[0.03] border border-white/10 p-8 sm:p-10"><h2 className="font-heading text-xl font-bold text-white mb-3">Localisation & Disponibilité</h2><p className="text-gray-400 leading-relaxed">{t.about.location}</p></div></div></section>
+      <section className="pb-20 sm:pb-28 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center"><h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2><p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p><Link href="/fr/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link></div></div></section>
+    </>
+  );
+}
+</file>
+
+<file path="app/fr/blog/page.tsx">
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Blog", description: "Insights paid ads B2B pour les marchés Français ↔ Anglais." };
+
+export default function BlogFR() {
+  return (
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">Blog</h1>
+        <p className="mt-4 text-lg text-gray-400">Bientôt disponible — Insights ads B2B pour les entreprises qui se développent entre les marchés français et anglais.</p>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/fr/contact/page.tsx">
+"use client";
+
+import { useState } from "react";
+import { getContent } from "@/lib/content";
+
+export default function ContactFR() {
+  const t = getContent("fr");
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    const form = e.currentTarget;
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      company: (form.elements.namedItem("company") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    };
+    try {
+      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (res.ok) setSubmitted(true);
+    } catch { /* silent */ } finally { setLoading(false); }
+  }
+
+  return (
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-10">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.contact.title}</h1>
+          <p className="mt-3 text-lg text-gray-400">{t.contact.subtitle}</p>
+        </div>
+        {submitted ? (
+          <div className="rounded-2xl bg-brand/10 border border-brand/30 p-8 text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand/20 mb-4">
+              <svg className="h-6 w-6 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            </div>
+            <p className="font-heading text-lg font-semibold text-white">{t.contact.form.success}</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div><label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.name}</label><input type="text" id="name" name="name" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" /></div>
+            <div><label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.email}</label><input type="email" id="email" name="email" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" /></div>
+            <div><label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.company}</label><input type="text" id="company" name="company" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" /></div>
+            <div><label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.message}</label><textarea id="message" name="message" rows={5} required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors resize-none" /></div>
+            <button type="submit" disabled={loading} className="btn-magnetic w-full rounded-lg bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30 hover:bg-brand-light transition-all disabled:opacity-60">{loading ? "..." : t.contact.form.submit}</button>
+          </form>
+        )}
+        <div className="mt-10 pt-8 border-t border-white/5 text-center"><a href="mailto:thomas@b2blast.com" className="text-sm font-medium text-brand hover:text-brand-light transition-colors">thomas@b2blast.com</a></div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/fr/services/page.tsx">
+import Link from "next/link";
+import Image from "next/image";
+import { getContent } from "@/lib/content";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Services", description: "Gestion paid ads B2B sur LinkedIn, Google, Microsoft & Reddit. Expertise bilingue Français ↔ Anglais." };
+
+export default function ServicesFR() {
+  const t = getContent("fr");
+  return (
+    <>
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"><div className="max-w-2xl"><h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.services.title}</h1><p className="mt-4 text-lg text-gray-400 leading-relaxed">{t.services.subtitle}</p></div></div>
+      </section>
+      <section className="pb-16 sm:pb-20 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"><div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">{t.services.platforms.map((p) => (<div key={p.name} className="rounded-xl border border-white/10 bg-white/[0.03] p-6 card-hover"><div className="flex items-center gap-3 mb-2"><Image src={`/images/platforms/${p.icon}.png`} alt={p.name} width={24} height={24} className="h-6 w-6 rounded" /><h3 className="font-heading text-lg font-semibold text-white">{p.name}</h3></div><p className="text-sm text-gray-500">{p.description}</p></div>))}</div></div>
+      </section>
+      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"><div className="grid md:grid-cols-3 gap-6">{t.services.packages.map((pkg) => (<div key={pkg.name} className={`relative rounded-2xl p-6 sm:p-8 ${pkg.popular ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20" : "bg-white/[0.03] border border-white/10"}`}>{pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand">Le + populaire</span>}<h3 className="font-heading text-lg font-semibold text-white">{pkg.name}</h3><p className="mt-3"><span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>{pkg.period}</span></p><ul className="mt-6 space-y-3">{pkg.features.map((f) => (<li key={f} className="flex items-start gap-2"><svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span></li>))}</ul><Link href="/fr/contact" className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold ${pkg.popular ? "bg-white text-brand hover:bg-gray-100" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link></div>))}</div></div>
+      </section>
+      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"><h2 className="font-heading text-2xl sm:text-3xl font-bold text-white tracking-tight mb-8">{t.services.includes.title}</h2><div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{t.services.includes.items.map((item) => (<div key={item} className="flex items-start gap-3 rounded-xl bg-white/[0.03] border border-white/5 p-5"><svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className="text-sm text-gray-400">{item}</span></div>))}</div></div>
+      </section>
+      <section className="pb-20 sm:pb-28 bg-black"><div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"><div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center"><h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2><p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p><Link href="/fr/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link></div></div></section>
+    </>
+  );
+}
+</file>
+
+<file path="app/fr/layout.tsx">
+import type { Metadata } from "next";
+import { Sora, DM_Sans } from "next/font/google";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { OrganizationSchema } from "@/components/StructuredData";
+
+const sora = Sora({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700"] });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
+
+export const metadata: Metadata = {
+  title: { default: "B2BLAST - Paid Ads B2B Marchés Français ↔ Anglais", template: "%s | B2BLAST" },
+  description: "Expert paid ads B2B bilingue natif. LinkedIn, Google, Microsoft Ads pour SaaS français en expansion UK/US et entreprises internationales entrant en France.",
+  keywords: ["ads B2B", "LinkedIn ads", "Google ads B2B", "marketing bilingue", "SaaS français", "expansion internationale"],
+  authors: [{ name: "Thomas Germain", url: "https://b2blast.com/fr/about" }],
+  creator: "Thomas Germain",
+  publisher: "B2BLAST",
+  robots: "index, follow",
+  openGraph: { type: "website", locale: "fr_FR", alternateLocale: ["en_US"], url: "https://b2blast.com/fr", siteName: "B2BLAST", title: "B2BLAST - Paid Ads B2B Marchés Français ↔ Anglais", description: "Expert paid ads B2B bilingue natif.", images: [{ url: "/og-image-fr.png", width: 1200, height: 630, alt: "B2BLAST - Paid Ads B2B" }] },
+  twitter: { card: "summary_large_image", title: "B2BLAST - Paid Ads B2B", description: "Expert paid ads B2B bilingue natif.", images: ["/og-image-fr.png"] },
+  alternates: { canonical: "https://b2blast.com/fr", languages: { en: "https://b2blast.com/en", fr: "https://b2blast.com/fr" } },
+};
+
+export default function FrLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="fr" className={`${sora.variable} ${dmSans.variable}`}>
+      <body className="grain font-body bg-black text-white antialiased">
+        <a href="#main" className="skip-link">Aller au contenu principal</a>
+        <OrganizationSchema />
+        <Header locale="fr" />
+        <main id="main">{children}</main>
+        <Footer locale="fr" />
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="app/fr/page.tsx">
+import Link from "next/link";
+import Image from "next/image";
+import { getContent } from "@/lib/content";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import TiltCard from "@/components/ui/TiltCard";
+import AnimatedStat from "@/components/ui/AnimatedStat";
+
+const platformLogos = [
+  { name: "LinkedIn", src: "/images/platforms/linkedin.png" },
+  { name: "Google", src: "/images/platforms/google.png" },
+  { name: "Pinterest", src: "/images/platforms/pinterest.png" },
+  { name: "Meta", src: "/images/platforms/meta.png" },
+];
+
+export default function HomeFR() {
+  const t = getContent("fr");
+
+  return (
+    <>
+      {/* HERO */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-black">
+        <div className="absolute top-20 right-[10%] w-[500px] h-[500px] bg-brand/10 rounded-full blur-[120px] animate-pulse-glow" />
+        <div className="absolute bottom-10 left-[5%] w-[400px] h-[400px] bg-brand/5 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[150px]" />
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
+
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-32 sm:py-40">
+          <div className="max-w-3xl">
+            <div className="hero-animate hero-delay-1 inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand-light mb-8">
+              <span className="inline-block w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
+              B2B Uniquement — Français ↔ Anglais
+            </div>
+            <h1 className="hero-animate hero-delay-2 font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.05]">{t.hero.title}</h1>
+            <p className="hero-animate hero-delay-3 mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">{t.hero.subtitle}</p>
+            <p className="hero-animate hero-delay-4 mt-3 text-base text-brand-light font-medium">{t.hero.description}</p>
+            <div className="hero-animate hero-delay-5 mt-10 flex flex-col sm:flex-row gap-4">
+              <Link href="/fr/contact" className="btn-magnetic inline-flex items-center justify-center rounded-lg bg-brand px-7 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">
+                {t.hero.cta}
+                <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+              </Link>
+              <Link href="/fr/services" className="inline-flex items-center justify-center rounded-lg border border-gray-700 px-7 py-4 text-base font-semibold text-gray-300 hover:border-brand/50 hover:text-white transition-all">{t.hero.ctaSecondary}</Link>
+            </div>
+          </div>
+          <div className="hero-animate hero-delay-6 mt-20 pt-8 border-t border-white/5">
+            <p className="text-xs uppercase tracking-[0.2em] text-gray-600 font-medium mb-5">{t.trust.label}</p>
+            <div className="flex flex-wrap items-center gap-8">
+              {platformLogos.map((logo) => (
+                <Image key={logo.name} src={logo.src} alt={logo.name} width={36} height={36} className="h-8 w-8 rounded-md opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PROBLEM */}
+      <section className="py-24 sm:py-32 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal><div className="max-w-2xl mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.problem.title}</h2></div></ScrollReveal>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {t.problem.items.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 100}>
+                <TiltCard className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover h-full" tiltAmount={4}>
+                  <div className="flex items-start gap-4">
+                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-brand/10 text-brand text-sm font-bold">{i + 1}</span>
+                    <div><h3 className="font-heading text-lg font-semibold text-white mb-2">{item.title}</h3><p className="text-gray-400 leading-relaxed">{item.description}</p></div>
+                  </div>
+                </TiltCard>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SOLUTION */}
+      <section className="py-24 sm:py-32 bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal><div className="max-w-2xl mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-black tracking-tight">{t.solution.title}</h2><p className="mt-4 text-lg text-gray-600 leading-relaxed">{t.solution.subtitle}</p></div></ScrollReveal>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {t.solution.stats.map((stat, i) => (
+              <ScrollReveal key={i} delay={i * 120} direction="scale"><AnimatedStat value={stat.value} label={stat.label} /></ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section className="py-24 sm:py-32 bg-black">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal><div className="text-center mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.services.title}</h2><p className="mt-3 text-lg text-gray-400">{t.services.subtitle}</p></div></ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+            {t.services.platforms.map((platform, i) => (
+              <ScrollReveal key={platform.name} delay={i * 80}>
+                <TiltCard className="rounded-xl border border-white/10 bg-white/[0.03] p-5 card-hover h-full" tiltAmount={5} glare={false}>
+                  <div className="flex items-center gap-3 mb-2">
+                    <Image src={`/images/platforms/${platform.icon}.png`} alt={platform.name} width={24} height={24} className="h-6 w-6 rounded" />
+                    <h3 className="font-heading font-semibold text-white">{platform.name}</h3>
+                  </div>
+                  <p className="text-sm text-gray-500">{platform.description}</p>
+                </TiltCard>
+              </ScrollReveal>
+            ))}
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {t.services.packages.map((pkg, i) => (
+              <ScrollReveal key={pkg.name} delay={i * 120}>
+                <TiltCard className={`relative rounded-2xl p-6 sm:p-8 h-full ${pkg.popular ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20" : "bg-white/[0.03] border border-white/10"}`} tiltAmount={3}>
+                  {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand shadow-lg">Le + populaire</span>}
+                  <h3 className="font-heading text-lg font-semibold text-white">{pkg.name}</h3>
+                  <p className="mt-3"><span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>{pkg.period}</span></p>
+                  <ul className="mt-6 space-y-3">
+                    {pkg.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2"><svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span></li>
+                    ))}
+                  </ul>
+                  <Link href="/fr/contact" className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold transition-all ${pkg.popular ? "bg-white text-brand hover:bg-gray-100" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
+                </TiltCard>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 sm:py-32 bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal direction="scale">
+            <div className="relative overflow-hidden rounded-3xl bg-black px-8 py-20 sm:px-16 sm:py-24 text-center">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-brand/20 rounded-full blur-[100px] animate-pulse-glow" />
+              <div className="absolute bottom-0 left-0 w-60 h-60 bg-brand/10 rounded-full blur-[80px]" />
+              <div className="relative">
+                <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.cta.title}</h2>
+                <p className="mx-auto mt-5 max-w-xl text-lg text-gray-400 leading-relaxed">{t.cta.subtitle}</p>
+                <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Link href="/fr/contact" className="btn-magnetic inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}<svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></Link>
+                  <a href={`mailto:${t.cta.email}`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.cta.email}</a>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+    </>
+  );
+}
+</file>
+
+<file path="app/robots.ts">
+import type { MetadataRoute } from "next";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: { userAgent: "*", allow: "/", disallow: ["/api/"] },
+    sitemap: "https://b2blast.com/sitemap.xml",
+  };
+}
+</file>
+
+<file path="app/sitemap.ts">
+import type { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const base = "https://b2blast.com";
+  const pages = ["", "/services", "/about", "/contact", "/blog"];
+  const entries: MetadataRoute.Sitemap = [];
+
+  for (const p of pages) {
+    for (const locale of ["en", "fr"]) {
+      entries.push({
+        url: `${base}/${locale}${p}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: p === "" ? 1 : 0.8,
+        alternates: { languages: { en: `${base}/en${p}`, fr: `${base}/fr${p}` } },
+      });
+    }
+  }
+  return entries;
+}
+</file>
+
+<file path="components/layout/Footer.tsx">
+import Link from "next/link";
+import Image from "next/image";
+import { getContent, type Locale } from "@/lib/content";
+
+export default function Footer({ locale }: { locale: Locale }) {
+  const t = getContent(locale);
+
+  return (
+    <footer className="border-t border-white/5 bg-black">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex flex-col md:flex-row justify-between gap-8">
+          {/* Brand */}
+          <div className="space-y-3">
+            <Link href={`/${locale}`} className="inline-block">
+              <Image
+                src="/images/logo.png"
+                alt="B2BLAST"
+                width={120}
+                height={32}
+                className="h-7 w-auto"
+              />
+            </Link>
+            <p className="text-sm text-gray-500 max-w-xs">
+              {t.footer.tagline}
+            </p>
+          </div>
+
+          {/* Links */}
+          <div className="flex gap-12">
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-white">Pages</h3>
+              <div className="flex flex-col gap-2">
+                <Link href={`/${locale}/services`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.services}</Link>
+                <Link href={`/${locale}/about`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.about}</Link>
+                <Link href={`/${locale}/blog`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.blog}</Link>
+                <Link href={`/${locale}/contact`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.contact}</Link>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-white">
+                {locale === "en" ? "Connect" : "Contact"}
+              </h3>
+              <div className="flex flex-col gap-2">
+                <a href="mailto:thomas@b2blast.com" className="text-sm text-gray-500 hover:text-brand transition-colors">thomas@b2blast.com</a>
+                <a href="https://www.linkedin.com/in/thomasgermain" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 hover:text-brand transition-colors">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between gap-3">
+          <p className="text-xs text-gray-600">{t.footer.copyright}</p>
+          <Link href={`/${locale}`} className="text-xs text-gray-600 hover:text-gray-400 transition-colors">{t.footer.links.privacy}</Link>
+        </div>
+      </div>
+    </footer>
+  );
+}
+</file>
+
+<file path="components/layout/Header.tsx">
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { getContent, type Locale } from "@/lib/content";
+
+export default function Header({ locale }: { locale: Locale }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const t = getContent(locale);
+  const otherLocale = locale === "en" ? "fr" : "en";
+  const otherLabel = locale === "en" ? "FR" : "EN";
+
+  const navLinks = [
+    { href: `/${locale}`, label: t.nav.home },
+    { href: `/${locale}/services`, label: t.nav.services },
+    { href: `/${locale}/about`, label: t.nav.about },
+    { href: `/${locale}/blog`, label: t.nav.blog },
+    { href: `/${locale}/contact`, label: t.nav.contact },
+  ];
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-lg border-b border-white/5">
+      <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link href={`/${locale}`} className="flex-shrink-0">
+            <Image
+              src="/images/logo.png"
+              alt="B2BLAST"
+              width={140}
+              height={36}
+              priority
+              className="h-8 w-auto"
+            />
+          </Link>
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Right side */}
+          <div className="hidden md:flex items-center gap-4">
+            <Link
+              href={`/${otherLocale}`}
+              className="text-sm font-medium text-gray-500 hover:text-brand transition-colors px-2 py-1 rounded border border-gray-700 hover:border-brand"
+            >
+              {otherLabel}
+            </Link>
+            <Link
+              href={`/${locale}/contact`}
+              className="btn-magnetic inline-flex items-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white"
+            >
+              {t.nav.cta}
+            </Link>
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            className="md:hidden p-2 text-gray-400"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              {mobileOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        {mobileOpen && (
+          <div className="md:hidden border-t border-white/5 py-4 space-y-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="block px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 rounded-lg"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="flex items-center gap-3 px-3 pt-3 border-t border-white/5 mt-3">
+              <Link
+                href={`/${otherLocale}`}
+                className="text-sm font-medium text-gray-500 hover:text-brand px-3 py-2 border border-gray-700 rounded-lg"
+              >
+                {otherLabel}
+              </Link>
+              <Link
+                href={`/${locale}/contact`}
+                onClick={() => setMobileOpen(false)}
+                className="flex-1 text-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white"
+              >
+                {t.nav.cta}
+              </Link>
+            </div>
+          </div>
+        )}
+      </nav>
+    </header>
+  );
+}
+</file>
+
+<file path="components/ui/AnimatedStat.tsx">
+"use client";
+
+import { useCountUp } from "@/lib/useCountUp";
+
+interface AnimatedStatProps {
+  value: string;
+  label: string;
+}
+
+export default function AnimatedStat({ value, label }: AnimatedStatProps) {
+  const numericMatch = value.match(/(\d+)/);
+  const numericValue = numericMatch ? parseInt(numericMatch[1]) : 0;
+  const prefix = value.match(/^([^\d]*)/)?.[1] || "";
+  const suffix = value.match(/\d+(.*)$/)?.[1] || "";
+
+  const { count, ref } = useCountUp(numericValue, 2000);
+
+  return (
+    <div
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className="rounded-2xl bg-black border border-white/10 p-6 sm:p-8 text-center group hover:border-brand/50 hover:bg-brand/5 transition-all duration-500"
+    >
+      <p className="font-heading text-3xl sm:text-4xl font-bold text-brand tabular-nums">
+        {prefix}{count}{suffix}
+      </p>
+      <p className="mt-2 text-sm text-gray-500 group-hover:text-gray-400 transition-colors">
+        {label}
+      </p>
+    </div>
+  );
+}
+</file>
+
+<file path="components/ui/ScrollReveal.tsx">
+"use client";
+
+import { useScrollReveal } from "@/lib/useScrollReveal";
+
+interface ScrollRevealProps {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  direction?: "up" | "left" | "right" | "scale";
+}
+
+export default function ScrollReveal({
+  children,
+  className = "",
+  delay = 0,
+  direction = "up",
+}: ScrollRevealProps) {
+  const ref = useScrollReveal<HTMLDivElement>();
+
+  const directionClass = {
+    up: "scroll-reveal-up",
+    left: "scroll-reveal-left",
+    right: "scroll-reveal-right",
+    scale: "scroll-reveal-scale",
+  }[direction];
+
+  return (
+    <div
+      ref={ref}
+      className={`${directionClass} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+</file>
+
+<file path="components/ui/TiltCard.tsx">
+"use client";
+
+import { useRef, useState } from "react";
+
+interface TiltCardProps {
+  children: React.ReactNode;
+  className?: string;
+  tiltAmount?: number;
+  glare?: boolean;
+}
+
+export default function TiltCard({
+  children,
+  className = "",
+  tiltAmount = 6,
+  glare = true,
+}: TiltCardProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [style, setStyle] = useState({
+    transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
+  });
+  const [glareStyle, setGlareStyle] = useState({ opacity: 0, left: "50%", top: "50%" });
+
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current;
+    if (!el) return;
+
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -tiltAmount;
+    const rotateY = ((x - centerX) / centerX) * tiltAmount;
+
+    setStyle({
+      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
+    });
+
+    if (glare) {
+      setGlareStyle({
+        opacity: 0.15,
+        left: `${(x / rect.width) * 100}%`,
+        top: `${(y / rect.height) * 100}%`,
+      });
+    }
+  }
+
+  function handleMouseLeave() {
+    setStyle({
+      transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+    });
+    setGlareStyle({ opacity: 0, left: "50%", top: "50%" });
+  }
+
+  return (
+    <div
+      ref={ref}
+      className={`relative overflow-hidden transition-transform duration-300 ease-out ${className}`}
+      style={style}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {children}
+      {glare && (
+        <div
+          className="pointer-events-none absolute w-40 h-40 rounded-full bg-white blur-2xl -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300"
+          style={{
+            opacity: glareStyle.opacity,
+            left: glareStyle.left,
+            top: glareStyle.top,
+          }}
+        />
+      )}
+    </div>
+  );
+}
+</file>
+
+<file path="components/StructuredData.tsx">
+export function OrganizationSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "B2BLAST",
+    description: "B2B paid ads agency specializing in bilingual French ↔ English markets. LinkedIn Ads, Google Ads, Microsoft Ads management for SaaS companies expanding internationally.",
+    url: "https://b2blast.com",
+    logo: "https://b2blast.com/images/logo.png",
+    image: "https://b2blast.com/og-image-en.png",
+    founder: {
+      "@type": "Person",
+      name: "Thomas Germain",
+      jobTitle: "Founder & B2B Ads Expert",
+      knowsLanguage: ["French", "English"],
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Dublin",
+      addressCountry: "IE",
+    },
+    areaServed: [
+      { "@type": "Country", name: "France" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Country", name: "United States" },
+      { "@type": "Country", name: "Ireland" },
+    ],
+    serviceType: [
+      "LinkedIn Ads Management",
+      "Google Ads B2B",
+      "Microsoft Ads",
+      "Reddit Ads",
+      "B2B Paid Advertising",
+      "Bilingual Ad Campaign Management",
+    ],
+    knowsLanguage: ["French", "English"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "Sales",
+      email: "thomas@b2blast.com",
+      availableLanguage: ["French", "English"],
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+</file>
+
+<file path="lib/content.ts">
+export type Locale = "en" | "fr";
+
+export const content = {
+  en: {
+    nav: {
+      home: "Home",
+      services: "Services",
+      about: "About",
+      blog: "Blog",
+      contact: "Contact",
+      cta: "Get Your Growth Plan",
+    },
+    hero: {
+      title: "Paid Ads for B2B SaaS/SMB Expanding Internationally",
+      subtitle:
+        "Your ads work in your home market. But they fail abroad. Wrong tone, wrong targeting, wrong cultural signals — money wasted.",
+      description:
+        "Native French ↔ English expertise. LinkedIn, Google, Microsoft & Reddit Ads.",
+      cta: "Get Your Growth Plan",
+      ctaSecondary: "See services",
+    },
+    trust: {
+      label: "Previous experience at",
+    },
+    problem: {
+      title: "Expanding internationally? Your ads aren't ready.",
+      items: [
+        {
+          title: "No bilingual B2B ads talent",
+          description:
+            "Hiring one takes 6 months and costs €70K+/year. You need results now.",
+        },
+        {
+          title: "Generalist agencies don't get B2B tech",
+          description:
+            "They run your LinkedIn Ads like a B2C campaign. Long sales cycles need different strategies.",
+        },
+        {
+          title: "Google Translate kills your ad copy",
+          description:
+            "Cultural nuances between FR and EN markets are invisible to non-native speakers.",
+        },
+        {
+          title: "Investor pressure demands speed",
+          description:
+            "Post-Series A, every month counts. You can't wait for organic to kick in.",
+        },
+      ],
+    },
+    solution: {
+      title: "One expert. Two markets. Zero lost in translation.",
+      subtitle:
+        "I'm Thomas — native bilingual French/English, ex-LinkedIn, ex-Google. I run your B2B paid ads across both markets with native-level precision.",
+      stats: [
+        { value: "75+", label: "B2B clients managed at LinkedIn" },
+        { value: "€15M", label: "quarterly ad budget at Google" },
+        { value: "6+", label: "years B2B ads experience" },
+        { value: "2", label: "native languages" },
+      ],
+    },
+    services: {
+      title: "Services",
+      subtitle: "B2B paid ads management, fully bilingual.",
+      platforms: [
+        {
+          name: "LinkedIn Ads",
+          description: "Core B2B expertise. Reach decision-makers directly.",
+          icon: "linkedin",
+        },
+        {
+          name: "Google Ads",
+          description: "Capture high-intent B2B search demand.",
+          icon: "google",
+        },
+        {
+          name: "Microsoft Ads",
+          description: "Access the overlooked B2B audience on Bing.",
+          icon: "microsoft",
+        },
+        {
+          name: "Reddit Ads",
+          description: "Target tech communities and developers.",
+          icon: "reddit",
+        },
+      ],
+      packages: [
+        {
+          name: "Launch",
+          price: "€2-3K",
+          period: "/month",
+          features: [
+            "1-2 platforms",
+            "€5-8K ad budget management",
+            "Monthly reporting",
+            "Continuous optimization",
+          ],
+          cta: "Get started",
+          popular: false,
+        },
+        {
+          name: "Growth",
+          price: "€3-5K",
+          period: "/month",
+          features: [
+            "2-3 platforms",
+            "€8-15K ad budget management",
+            "Bi-weekly reporting",
+            "Active A/B testing",
+            "Full strategy included",
+          ],
+          cta: "Get started",
+          popular: true,
+        },
+        {
+          name: "Scale",
+          price: "€5-8K",
+          period: "/month",
+          features: [
+            "All platforms",
+            "€15K+ ad budget management",
+            "Weekly reporting",
+            "Aggressive optimization",
+            "Complete strategy & creative direction",
+          ],
+          cta: "Get started",
+          popular: false,
+        },
+      ],
+      includes: {
+        title: "Every package includes",
+        items: [
+          "Full campaign strategy",
+          "Technical setup (GTM, GA4, conversion tracking)",
+          "Daily budget management",
+          "Ongoing bid & audience optimization",
+          "Professional reporting",
+          "Reactive Slack/email communication",
+        ],
+      },
+    },
+    about: {
+      title: "About Thomas",
+      intro:
+        "Native bilingual French/English. 6+ years managing B2B paid ads at the world's biggest platforms.",
+      experience: [
+        {
+          company: "LinkedIn",
+          role: "Account Director",
+          duration: "2.5 years",
+          detail: "75+ mid-market B2B clients across EMEA",
+        },
+        {
+          company: "Google",
+          role: "Account Strategist",
+          duration: "2 years",
+          detail: "55 SMB e-commerce clients, €15M quarterly quota",
+        },
+        {
+          company: "Pinterest",
+          role: "Account Manager",
+          duration: "1+ year",
+          detail: "Performance campaigns across EU markets",
+        },
+        {
+          company: "Indeed",
+          role: "Account Manager",
+          duration: "Current",
+          detail: "B2B recruitment advertising",
+        },
+      ],
+      location: "Based in Dublin, Ireland. Working with clients across Europe, UK, and US.",
+    },
+    cta: {
+      title: "Ready to expand internationally?",
+      subtitle:
+        "Book a free 30-minute strategy call. I'll review your current ads and show you exactly where you're leaving money on the table.",
+      button: "Get Your Growth Plan",
+      email: "thomas@b2blast.com",
+    },
+    contact: {
+      title: "Get in touch",
+      subtitle:
+        "Fill out the form below or email me directly. I'll get back to you within 24 hours.",
+      form: {
+        name: "Full name",
+        email: "Work email",
+        company: "Company name",
+        message: "Tell me about your project and goals",
+        submit: "Get Your Growth Plan",
+        success: "Message sent! I'll get back to you within 24 hours.",
+      },
+    },
+    footer: {
+      tagline: "B2B paid ads, natively bilingual.",
+      copyright: `© ${new Date().getFullYear()} B2BLAST. All rights reserved.`,
+      links: {
+        services: "Services",
+        about: "About",
+        blog: "Blog",
+        contact: "Contact",
+        privacy: "Privacy Policy",
+      },
+    },
+  },
+  fr: {
+    nav: {
+      home: "Accueil",
+      services: "Services",
+      about: "À propos",
+      blog: "Blog",
+      contact: "Contact",
+      cta: "Votre Plan de Croissance",
+    },
+    hero: {
+      title: "Paid Ads pour SaaS/PME B2B à l'International",
+      subtitle:
+        "Vos ads marchent sur votre marché. Mais elles échouent à l'étranger. Mauvais ton, mauvais ciblage, mauvais signaux culturels — argent gaspillé.",
+      description:
+        "Expertise native Français ↔ Anglais. LinkedIn, Google, Microsoft & Reddit Ads.",
+      cta: "Obtenez votre plan de croissance",
+      ctaSecondary: "Voir les services",
+    },
+    trust: {
+      label: "Expérience précédente chez",
+    },
+    problem: {
+      title: "Vous vous développez à l'international ? Vos ads ne sont pas prêtes.",
+      items: [
+        {
+          title: "Pas de talent B2B ads bilingue",
+          description:
+            "En recruter un prend 6 mois et coûte €70K+/an. Vous avez besoin de résultats maintenant.",
+        },
+        {
+          title: "Les agences généralistes ne comprennent pas la tech B2B",
+          description:
+            "Elles gèrent vos LinkedIn Ads comme une campagne B2C. Les cycles de vente longs nécessitent des stratégies différentes.",
+        },
+        {
+          title: "Google Translate tue votre ad copy",
+          description:
+            "Les nuances culturelles entre les marchés FR et EN sont invisibles pour les non-natifs.",
+        },
+        {
+          title: "La pression investisseur exige de la vitesse",
+          description:
+            "Post-Series A, chaque mois compte. Vous ne pouvez pas attendre que l'organique décolle.",
+        },
+      ],
+    },
+    solution: {
+      title: "Un expert. Deux marchés. Zéro perte en traduction.",
+      subtitle:
+        "Je suis Thomas — bilingue natif français/anglais, ex-LinkedIn, ex-Google. Je gère vos paid ads B2B sur les deux marchés avec une précision native.",
+      stats: [
+        { value: "75+", label: "clients B2B gérés chez LinkedIn" },
+        { value: "€15M", label: "budget ads trimestriel chez Google" },
+        { value: "6+", label: "ans d'expérience ads B2B" },
+        { value: "2", label: "langues natives" },
+      ],
+    },
+    services: {
+      title: "Services",
+      subtitle: "Gestion paid ads B2B, entièrement bilingue.",
+      platforms: [
+        {
+          name: "LinkedIn Ads",
+          description: "Expertise B2B cœur. Atteignez les décideurs directement.",
+          icon: "linkedin",
+        },
+        {
+          name: "Google Ads",
+          description: "Capturez la demande B2B à haute intention de recherche.",
+          icon: "google",
+        },
+        {
+          name: "Microsoft Ads",
+          description: "Accédez à l'audience B2B souvent négligée de Bing.",
+          icon: "microsoft",
+        },
+        {
+          name: "Reddit Ads",
+          description: "Ciblez les communautés tech et développeurs.",
+          icon: "reddit",
+        },
+      ],
+      packages: [
+        {
+          name: "Launch",
+          price: "€2-3K",
+          period: "/mois",
+          features: [
+            "1-2 plateformes",
+            "Gestion budget ads €5-8K",
+            "Reporting mensuel",
+            "Optimisation continue",
+          ],
+          cta: "Démarrer",
+          popular: false,
+        },
+        {
+          name: "Growth",
+          price: "€3-5K",
+          period: "/mois",
+          features: [
+            "2-3 plateformes",
+            "Gestion budget ads €8-15K",
+            "Reporting bi-mensuel",
+            "A/B testing actif",
+            "Stratégie complète incluse",
+          ],
+          cta: "Démarrer",
+          popular: true,
+        },
+        {
+          name: "Scale",
+          price: "€5-8K",
+          period: "/mois",
+          features: [
+            "Toutes les plateformes",
+            "Gestion budget ads €15K+",
+            "Reporting hebdomadaire",
+            "Optimisation aggressive",
+            "Stratégie complète & direction créative",
+          ],
+          cta: "Démarrer",
+          popular: false,
+        },
+      ],
+      includes: {
+        title: "Inclus dans chaque package",
+        items: [
+          "Stratégie campagnes complète",
+          "Setup technique (GTM, GA4, suivi conversions)",
+          "Gestion budgets quotidienne",
+          "Optimisation continue bids & audiences",
+          "Reporting professionnel",
+          "Communication réactive Slack/email",
+        ],
+      },
+    },
+    about: {
+      title: "À propos de Thomas",
+      intro:
+        "Bilingue natif français/anglais. 6+ ans de gestion paid ads B2B chez les plus grandes plateformes au monde.",
+      experience: [
+        {
+          company: "LinkedIn",
+          role: "Account Director",
+          duration: "2,5 ans",
+          detail: "75+ clients B2B mid-market à travers l'EMEA",
+        },
+        {
+          company: "Google",
+          role: "Account Strategist",
+          duration: "2 ans",
+          detail: "55 clients SMB e-commerce, quota trimestriel €15M",
+        },
+        {
+          company: "Pinterest",
+          role: "Account Manager",
+          duration: "1+ an",
+          detail: "Campagnes performance marchés EU",
+        },
+        {
+          company: "Indeed",
+          role: "Account Manager",
+          duration: "Actuellement",
+          detail: "Publicité recrutement B2B",
+        },
+      ],
+      location: "Basé à Dublin, Irlande. Je travaille avec des clients en Europe, UK et US.",
+    },
+    cta: {
+      title: "Prêt à vous développer à l'international ?",
+      subtitle:
+        "Réservez un appel stratégie gratuit de 30 minutes. J'analyserai vos ads actuelles et vous montrerai exactement où vous perdez de l'argent.",
+      button: "Obtenez votre plan de croissance",
+      email: "thomas@b2blast.com",
+    },
+    contact: {
+      title: "Contactez-moi",
+      subtitle:
+        "Remplissez le formulaire ci-dessous ou envoyez-moi un email directement. Je vous réponds sous 24 heures.",
+      form: {
+        name: "Nom complet",
+        email: "Email professionnel",
+        company: "Nom de l'entreprise",
+        message: "Parlez-moi de votre projet et vos objectifs",
+        submit: "Obtenez votre plan de croissance",
+        success: "Message envoyé ! Je vous réponds sous 24 heures.",
+      },
+    },
+    footer: {
+      tagline: "Paid ads B2B, nativement bilingue.",
+      copyright: `© ${new Date().getFullYear()} B2BLAST. Tous droits réservés.`,
+      links: {
+        services: "Services",
+        about: "À propos",
+        blog: "Blog",
+        contact: "Contact",
+        privacy: "Politique de confidentialité",
+      },
+    },
+  },
+} as const;
+
+export function getContent(locale: Locale) {
+  return content[locale];
+}
+</file>
+
+<file path="lib/useCountUp.ts">
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+export function useCountUp(
+  end: number,
+  duration: number = 2000,
+  startOnView: boolean = true
+) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!startOnView) {
+      setStarted(true);
+      return;
+    }
+
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) {
+          setStarted(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [started, startOnView]);
+
+  useEffect(() => {
+    if (!started) return;
+
+    let startTime: number;
+    let animationFrame: number;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      setCount(Math.floor(eased * end));
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [started, end, duration]);
+
+  return { count, ref };
+}
+</file>
+
+<file path="lib/useScrollReveal.ts">
+"use client";
+
+import { useEffect, useRef } from "react";
+
+interface ScrollRevealOptions {
+  threshold?: number;
+  rootMargin?: string;
+}
+
+export function useScrollReveal<T extends HTMLElement>(
+  options: ScrollRevealOptions = {}
+) {
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("revealed");
+          observer.unobserve(el);
+        }
+      },
+      {
+        threshold: options.threshold ?? 0.15,
+        rootMargin: options.rootMargin ?? "0px 0px -60px 0px",
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [options.threshold, options.rootMargin]);
+
+  return ref;
+}
+</file>
+
+<file path="middleware.ts">
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === "/") {
+    const lang = request.headers.get("accept-language") || "";
+    const locale = lang.toLowerCase().includes("fr") ? "fr" : "en";
+    return NextResponse.redirect(new URL(`/${locale}`, request.url));
+  }
+  return NextResponse.next();
+}
+
+export const config = { matcher: "/" };
+</file>
+
+<file path="app/globals.css">
+@import "tailwindcss";
+
+@theme {
+  /* === STRICT PALETTE: Violet / Noir / Blanc === */
+  --color-brand: #9e01e6;
+  --color-brand-light: #b44de8;
+  --color-brand-dark: #7a01b3;
+  --color-brand-glow: rgba(158, 1, 230, 0.25);
+
+  --font-heading: "Sora", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-brand);
+  color: white;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-brand);
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS
+   ============================================ */
+
+.scroll-reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal-up.revealed,
+.scroll-reveal-left.revealed,
+.scroll-reveal-right.revealed,
+.scroll-reveal-scale.revealed {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* ============================================
+   HERO ANIMATIONS
+   ============================================ */
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-animate {
+  opacity: 0;
+  animation: hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-delay-1 { animation-delay: 0.1s; }
+.hero-delay-2 { animation-delay: 0.25s; }
+.hero-delay-3 { animation-delay: 0.4s; }
+.hero-delay-4 { animation-delay: 0.55s; }
+.hero-delay-5 { animation-delay: 0.7s; }
+.hero-delay-6 { animation-delay: 0.85s; }
+
+/* ============================================
+   AMBIENT ANIMATIONS
+   ============================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* ============================================
+   GRAIN TEXTURE
+   ============================================ */
+
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   MAGNETIC BUTTON
+   ============================================ */
+
+.btn-magnetic {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
+}
+
+.btn-magnetic:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px -10px var(--color-brand-glow);
+}
+
+.btn-magnetic:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   CARD HOVER
+   ============================================ */
+
+.card-hover {
+  transition: border-color 0.3s ease, box-shadow 0.4s ease, transform 0.3s ease;
+}
+
+.card-hover:hover {
+  border-color: rgba(158, 1, 230, 0.3);
+  box-shadow: 0 0 0 1px rgba(158, 1, 230, 0.1),
+    0 8px 40px -12px rgba(158, 1, 230, 0.15);
+  transform: translateY(-2px);
+}
+</file>
+
+<file path="app/layout.tsx">
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "B2BLAST - B2B Paid Ads French ↔ English Markets",
+  description: "Native bilingual B2B paid ads expert. LinkedIn, Google, Microsoft Ads.",
+  metadataBase: new URL("https://b2blast.com"),
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children;
+}
+</file>
+
+<file path="app/page.tsx">
+import { redirect } from "next/navigation";
+export default function RootPage() {
+  redirect("/en");
+}
+</file>
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        ],
+      },
+    ];
+  },
+};
+
+export default nextConfig;
+</file>
+
+<file path="package.json">
+{
+  "name": "b2blast",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-hook-form": "^7.71.1",
+    "resend": "^6.9.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+</files>
