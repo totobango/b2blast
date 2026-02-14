@@ -1,93 +1,103 @@
-"use client";
-
-import { useState } from "react";
 import { getContent } from "@/lib/content";
-import type { FormEvent } from "react";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Contact", description: "Get in touch for B2B paid ads strategy. Free growth plan and 30-min strategy call available." };
 
 export default function ContactEN() {
   const t = getContent("en");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("loading");
-    const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form));
-    try {
-      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      if (res.ok) { setStatus("success"); form.reset(); } else setStatus("error");
-    } catch { setStatus("error"); }
-  }
 
   return (
     <>
-      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+      <section className="pt-32 pb-10 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.contact.title}</h1>
-            <p className="mt-4 text-lg text-gray-400 leading-relaxed">{t.contact.subtitle}</p>
+          <div className="max-w-3xl">
+            <h1 className="font-heading fluid-h1 font-bold text-cream">{t.contact.title}</h1>
+            <p className="mt-5 text-xl text-gray-400 leading-relaxed">{t.contact.subtitle}</p>
           </div>
         </div>
       </section>
 
-      <section className="pb-24 sm:pb-32 bg-black">
+      <section className="py-16 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Form */}
-            <div>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.name}</label>
-                  <input id="name" name="name" type="text" required autoComplete="name" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-1 focus:ring-brand transition-colors" />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.email}</label>
-                  <input id="email" name="email" type="email" required autoComplete="email" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-1 focus:ring-brand transition-colors" />
-                </div>
-                <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.company}</label>
-                  <input id="company" name="company" type="text" autoComplete="organization" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-1 focus:ring-brand transition-colors" />
-                </div>
-                <div>
-                  <label htmlFor="budget" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.budget}</label>
-                  <select id="budget" name="budget" className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white focus:border-brand focus:ring-1 focus:ring-brand transition-colors">
-                    <option value="" className="bg-black">—</option>
-                    {t.contact.form.budgetOptions.map((opt) => (
-                      <option key={opt} value={opt} className="bg-black">{opt}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.message}</label>
-                  <textarea id="message" name="message" rows={4} required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-1 focus:ring-brand transition-colors resize-none" />
-                </div>
-                <button type="submit" disabled={status === "loading"} className="btn-magnetic w-full rounded-lg bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30 hover:bg-brand-light disabled:opacity-50 transition-all">
-                  {status === "loading" ? "..." : t.contact.form.submit}
-                </button>
-                {status === "success" && <p className="text-green-400 text-sm font-medium">{t.contact.form.success}</p>}
-                {status === "error" && <p className="text-red-400 text-sm">Something went wrong. Email me directly at thomas@b2blast.com</p>}
-              </form>
-            </div>
+          <div className="grid lg:grid-cols-5 gap-10">
+            {/* Form — takes 3 cols */}
+            <ScrollReveal className="lg:col-span-3">
+              <div className=" rounded-2xl bg-cream p-8 sm:p-10">
+                <form action="/api/contact" method="POST" className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.name}</label>
+                      <input id="name" name="name" type="text" required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.email}</label>
+                      <input id="email" name="email" type="email" required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="company" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.company}</label>
+                      <input id="company" name="company" type="text" className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label htmlFor="budget" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.budget}</label>
+                      <select id="budget" name="budget" className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all appearance-none">
+                        <option value="">—</option>
+                        {t.contact.form.budgetOptions.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.message}</label>
+                    <textarea id="message" name="message" rows={5} required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all resize-none" />
+                  </div>
+                  <button type="submit" className="btn-magnetic w-full rounded-xl bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25 hover:bg-brand-light transition-colors">
+                    {t.contact.form.submit}
+                  </button>
+                </form>
+              </div>
+            </ScrollReveal>
 
-            {/* Calendly + info */}
-            <div className="space-y-8">
-              <div id="calendly" className="rounded-2xl border border-white/10 bg-white/[0.03] p-8">
-                <h3 className="font-heading text-lg font-semibold text-white mb-3">{t.contact.calendly}</h3>
-                <p className="text-sm text-gray-400 mb-6">30-minute free strategy call. No strings attached.</p>
-                {/* TODO: Replace with actual Calendly embed */}
-                <a href="https://calendly.com/b2blast" target="_blank" rel="noopener noreferrer" className="btn-magnetic block w-full rounded-lg border-2 border-brand bg-brand/10 px-6 py-4 text-center text-base font-semibold text-brand hover:bg-brand hover:text-white transition-all">
-                  Book on Calendly →
-                </a>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8">
-                <h3 className="font-heading text-base font-semibold text-white mb-4">Or email directly</h3>
-                <a href="mailto:thomas@b2blast.com" className="text-brand hover:text-brand-light transition-colors font-medium">thomas@b2blast.com</a>
-                <div className="mt-6 pt-6 border-t border-white/10">
-                  <p className="text-sm text-gray-500">Typical response time: under 24 hours.</p>
-                  <p className="text-sm text-gray-500 mt-1">Languages: English, Français.</p>
+            {/* Sidebar — Calendly + email */}
+            <ScrollReveal delay={150} className="lg:col-span-2">
+              <div className=" space-y-6">
+                <div id="calendly" className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">{t.contact.calendly}</h3>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-5">30-min strategy call. No commitment.</p>
+                  <a href="https://calendly.com/b2blast" target="_blank" rel="noopener noreferrer" className="btn-magnetic block w-full rounded-xl border border-brand/30 bg-brand/10 px-5 py-3.5 text-center text-sm font-semibold text-brand hover:bg-brand/20 transition-all">
+                    Book a call →
+                  </a>
+                </div>
+
+                <div className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">Email</h3>
+                  </div>
+                  <a href="mailto:thomas@b2blast.com" className="text-brand hover:text-brand-light transition-colors font-medium">thomas@b2blast.com</a>
+                  <p className="mt-3 text-xs text-gray-500">Response within 24 hours. French & English.</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">Location</h3>
+                  </div>
+                  <p className="text-gray-400 text-sm">Dublin, Ireland 🇮🇪</p>
+                  <p className="text-gray-500 text-xs mt-1">Remote-first — serving clients across Europe & US</p>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>

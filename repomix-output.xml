@@ -51,6 +51,10 @@ app/
       page.tsx
     contact/
       page.tsx
+    legal/
+      page.tsx
+    privacy/
+      page.tsx
     resources/
       page.tsx
     services/
@@ -64,6 +68,10 @@ app/
       page.tsx
     contact/
       page.tsx
+    legal/
+      page.tsx
+    privacy/
+      page.tsx
     resources/
       page.tsx
     services/
@@ -72,6 +80,7 @@ app/
     page.tsx
   favicon.ico
   globals.css
+  icon.png
   layout.tsx
   page.tsx
   robots.ts
@@ -104,6 +113,7 @@ public/
       pinterest.png
       reddit.png
       x.png
+    favicon.png
     logo.png
     thomas.jpg
   file.svg
@@ -113,16 +123,298 @@ public/
   window.svg
 .gitignore
 eslint.config.mjs
-middleware.ts
 next.config.ts
 package.json
 postcss.config.mjs
+proxy.ts
 README.md
 tsconfig.json
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path="proxy.ts">
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === "/") {
+    const lang = request.headers.get("accept-language") || "";
+    const locale = lang.toLowerCase().includes("fr") ? "fr" : "en";
+    return NextResponse.redirect(new URL(`/${locale}`, request.url));
+  }
+  return NextResponse.next();
+}
+
+export const config = { matcher: "/" };
+</file>
+
+<file path="app/en/legal/page.tsx">
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Legal Notice", description: "B2BLAST legal notice and company information." };
+
+export default function LegalEN() {
+  return (
+    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-surface">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight mb-12">Legal Notice</h1>
+
+        <div className="prose-sm space-y-8 text-gray-400 leading-relaxed">
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Company information</h2>
+            <p>B2BLAST is a trade name operated by Thomas Germain.</p>
+            <p className="mt-2">Address: Dublin, Ireland</p>
+            <p>Email: thomas@b2blast.com</p>
+            <p>Website: https://b2blast.com</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Hosting</h2>
+            <p>This website is hosted by Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, United States. DNS services provided by Cloudflare, Inc.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Intellectual property</h2>
+            <p>All content on this website (text, images, graphics, logos, icons) is the property of B2BLAST / Thomas Germain unless otherwise stated. Reproduction without prior written authorization is prohibited.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Limitation of liability</h2>
+            <p>B2BLAST makes every effort to ensure the accuracy of information published on this site. However, we cannot guarantee that all information is complete, accurate, or up-to-date. B2BLAST shall not be held liable for any direct or indirect damages resulting from the use of this website.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Applicable law</h2>
+            <p>This website and its content are governed by Irish law. Any disputes shall be subject to the exclusive jurisdiction of the Irish courts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/en/privacy/page.tsx">
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Privacy Policy", description: "B2BLAST privacy policy. How we collect, use, and protect your data." };
+
+export default function PrivacyEN() {
+  return (
+    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-surface">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">Privacy Policy</h1>
+        <p className="text-sm text-gray-500 mb-12">Last updated: February 2026</p>
+
+        <div className="prose-sm space-y-8 text-gray-400 leading-relaxed">
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">1. Who we are</h2>
+            <p>B2BLAST is operated by Thomas Germain, a sole trader based in Dublin, Ireland. Contact: thomas@b2blast.com.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">2. Data we collect</h2>
+            <p>When you use our contact form, we collect: your name, email address, company name, monthly ad budget range, and message content. This data is submitted voluntarily and used solely to respond to your inquiry and evaluate project fit.</p>
+            <p className="mt-2">When you visit our site, we may collect anonymized usage data (pages visited, referral source) through privacy-focused analytics. No personal identifiers are tracked.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">3. How we use your data</h2>
+            <p>Your data is used to: respond to your inquiry, send relevant follow-up information about our services, and improve our website. We do not sell, rent, or share your personal data with third parties for marketing purposes.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">4. Legal basis (GDPR)</h2>
+            <p>We process your data based on: legitimate interest (responding to inquiries), consent (when you submit the contact form), and contractual necessity (when we enter a service agreement).</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">5. Data retention</h2>
+            <p>Contact form data is retained for 24 months from the date of submission, or for the duration of an active client relationship plus 12 months. You may request deletion at any time.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">6. Cookies</h2>
+            <p>This site uses only essential, first-party cookies required for site functionality. We do not use third-party tracking cookies or advertising pixels without your explicit consent.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">7. Your rights</h2>
+            <p>Under GDPR, you have the right to: access your personal data, request correction or deletion, object to processing, and withdraw consent at any time. To exercise these rights, email thomas@b2blast.com.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">8. Third-party services</h2>
+            <p>This site is hosted on Vercel (USA, with EU data processing). DNS is managed by Cloudflare. Email services may use Resend. All third-party providers are GDPR-compliant or operate under EU-US Data Privacy Framework.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">9. Contact</h2>
+            <p>For any privacy-related questions: thomas@b2blast.com.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/fr/legal/page.tsx">
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Mentions légales", description: "Mentions légales B2BLAST — informations sur l'entreprise et l'hébergement." };
+
+export default function LegalFR() {
+  return (
+    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-surface">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight mb-12">Mentions légales</h1>
+
+        <div className="prose-sm space-y-8 text-gray-400 leading-relaxed">
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Informations sur l'entreprise</h2>
+            <p>B2BLAST est un nom commercial opéré par Thomas Germain.</p>
+            <p className="mt-2">Adresse : Dublin, Irlande</p>
+            <p>Email : thomas@b2blast.com</p>
+            <p>Site web : https://b2blast.com</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Hébergement</h2>
+            <p>Ce site est hébergé par Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis. Services DNS fournis par Cloudflare, Inc.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Propriété intellectuelle</h2>
+            <p>L'ensemble du contenu de ce site (textes, images, graphismes, logos, icônes) est la propriété de B2BLAST / Thomas Germain sauf mention contraire. Toute reproduction sans autorisation écrite préalable est interdite.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Limitation de responsabilité</h2>
+            <p>B2BLAST met tout en œuvre pour assurer l'exactitude des informations publiées. Cependant, nous ne pouvons garantir que toutes les informations soient complètes, exactes ou à jour. B2BLAST ne saurait être tenu responsable de tout dommage direct ou indirect résultant de l'utilisation de ce site.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Droit applicable</h2>
+            <p>Ce site et son contenu sont régis par le droit irlandais. Tout litige relèvera de la compétence exclusive des tribunaux irlandais.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">Conformité LCEN</h2>
+            <p>Conformément à la Loi pour la Confiance dans l'Économie Numérique (LCEN) du 21 juin 2004, les informations ci-dessus sont mises à disposition des utilisateurs français de ce site.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/fr/privacy/page.tsx">
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Politique de confidentialité", description: "Politique de confidentialité B2BLAST. Comment nous collectons, utilisons et protégeons vos données." };
+
+export default function PrivacyFR() {
+  return (
+    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-surface">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+        <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">Politique de confidentialité</h1>
+        <p className="text-sm text-gray-500 mb-12">Dernière mise à jour : février 2026</p>
+
+        <div className="prose-sm space-y-8 text-gray-400 leading-relaxed">
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">1. Qui sommes-nous</h2>
+            <p>B2BLAST est opéré par Thomas Germain, entrepreneur individuel basé à Dublin, Irlande. Contact : thomas@b2blast.com.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">2. Données collectées</h2>
+            <p>Lorsque vous utilisez notre formulaire de contact, nous collectons : votre nom, adresse email, nom de société, fourchette de budget publicitaire mensuel, et le contenu de votre message. Ces données sont soumises volontairement et utilisées uniquement pour répondre à votre demande et évaluer l'adéquation du projet.</p>
+            <p className="mt-2">Lors de votre visite, nous pouvons collecter des données d'utilisation anonymisées (pages visitées, source de référence) via des analytics respectueux de la vie privée. Aucun identifiant personnel n'est tracé.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">3. Utilisation des données</h2>
+            <p>Vos données servent à : répondre à votre demande, envoyer des informations pertinentes sur nos services, et améliorer notre site. Nous ne vendons, ne louons ni ne partageons vos données personnelles avec des tiers à des fins marketing.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">4. Base légale (RGPD)</h2>
+            <p>Nous traitons vos données sur la base de : l'intérêt légitime (réponse aux demandes), le consentement (soumission du formulaire), et la nécessité contractuelle (accord de service).</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">5. Conservation des données</h2>
+            <p>Les données du formulaire sont conservées 24 mois à compter de la soumission, ou pour la durée d'une relation client active plus 12 mois. Vous pouvez demander la suppression à tout moment.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">6. Cookies</h2>
+            <p>Ce site utilise uniquement des cookies essentiels first-party nécessaires au fonctionnement. Nous n'utilisons pas de cookies tiers de tracking ou de pixels publicitaires sans votre consentement explicite.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">7. Vos droits</h2>
+            <p>En vertu du RGPD, vous avez le droit de : accéder à vos données, demander leur rectification ou suppression, vous opposer au traitement, et retirer votre consentement. Pour exercer ces droits : thomas@b2blast.com.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">8. Services tiers</h2>
+            <p>Ce site est hébergé sur Vercel (USA, avec traitement données EU). DNS géré par Cloudflare. Services email via Resend. Tous les prestataires sont conformes au RGPD ou opèrent sous le EU-US Data Privacy Framework.</p>
+          </div>
+          <div>
+            <h2 className="font-heading text-lg font-semibold text-white mb-3">9. Contact</h2>
+            <p>Pour toute question relative à la vie privée : thomas@b2blast.com.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
 
 <file path="app/api/contact/route.ts">
 import { NextResponse } from "next/server";
@@ -176,7 +468,7 @@ export default function AboutEN() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start gap-8">
             {/* Photo */}
@@ -208,12 +500,12 @@ export default function AboutEN() {
       </section>
 
       {/* Experience */}
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="pb-16 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h2 className="font-heading text-2xl font-bold text-white mb-8">Experience</h2>
           <div className="space-y-6">
             {t.about.experience.map((exp) => (
-              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover">
+              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-cream/[0.03] p-6 sm:p-8 card-hover">
                 <div className="flex-shrink-0">
                   <Image
                     src={exp.logo}
@@ -237,9 +529,9 @@ export default function AboutEN() {
       </section>
 
       {/* Location */}
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="pb-16 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-8 sm:p-10">
+          <div className="rounded-2xl bg-cream/[0.03] border border-white/10 p-8 sm:p-10">
             <h2 className="font-heading text-xl font-bold text-white mb-3">Location & Availability</h2>
             <p className="text-gray-400 leading-relaxed">{t.about.location}</p>
           </div>
@@ -247,7 +539,7 @@ export default function AboutEN() {
       </section>
 
       {/* CTA */}
-      <section className="pb-20 sm:pb-28 bg-black">
+      <section className="pb-20 sm:pb-28 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center">
             <h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2>
@@ -268,7 +560,7 @@ export const metadata: Metadata = { title: "Blog", description: "B2B paid ads in
 
 export default function BlogEN() {
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-surface">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">Blog</h1>
         <p className="mt-4 text-lg text-gray-400">Coming soon — B2B ads insights for companies expanding between French and English markets.</p>
@@ -279,76 +571,110 @@ export default function BlogEN() {
 </file>
 
 <file path="app/en/contact/page.tsx">
-"use client";
-
-import { useState } from "react";
 import { getContent } from "@/lib/content";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Contact", description: "Get in touch for B2B paid ads strategy. Free growth plan and 30-min strategy call available." };
 
 export default function ContactEN() {
   const t = getContent("en");
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    const form = e.currentTarget;
-    const data = {
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      company: (form.elements.namedItem("company") as HTMLInputElement).value,
-      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
-    };
-    try {
-      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      if (res.ok) setSubmitted(true);
-    } catch { /* silent */ } finally { setLoading(false); }
-  }
 
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-10">
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.contact.title}</h1>
-          <p className="mt-3 text-lg text-gray-400">{t.contact.subtitle}</p>
-        </div>
-
-        {submitted ? (
-          <div className="rounded-2xl bg-brand/10 border border-brand/30 p-8 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand/20 mb-4">
-              <svg className="h-6 w-6 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-            </div>
-            <p className="font-heading text-lg font-semibold text-white">{t.contact.form.success}</p>
+    <>
+      <section className="pt-32 pb-10 bg-surface">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <h1 className="font-heading fluid-h1 font-bold text-cream">{t.contact.title}</h1>
+            <p className="mt-5 text-xl text-gray-400 leading-relaxed">{t.contact.subtitle}</p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.name}</label>
-              <input type="text" id="name" name="name" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.email}</label>
-              <input type="email" id="email" name="email" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" />
-            </div>
-            <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.company}</label>
-              <input type="text" id="company" name="company" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.message}</label>
-              <textarea id="message" name="message" rows={5} required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors resize-none" />
-            </div>
-            <button type="submit" disabled={loading} className="btn-magnetic w-full rounded-lg bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30 hover:bg-brand-light transition-all disabled:opacity-60 disabled:cursor-not-allowed">
-              {loading ? "..." : t.contact.form.submit}
-            </button>
-          </form>
-        )}
-
-        <div className="mt-10 pt-8 border-t border-white/5 text-center">
-          <a href="mailto:thomas@b2blast.com" className="text-sm font-medium text-brand hover:text-brand-light transition-colors">thomas@b2blast.com</a>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section className="py-16 bg-surface">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-5 gap-10">
+            {/* Form — takes 3 cols */}
+            <ScrollReveal className="lg:col-span-3">
+              <div className=" rounded-2xl bg-cream p-8 sm:p-10">
+                <form action="/api/contact" method="POST" className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.name}</label>
+                      <input id="name" name="name" type="text" required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.email}</label>
+                      <input id="email" name="email" type="email" required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="company" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.company}</label>
+                      <input id="company" name="company" type="text" className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label htmlFor="budget" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.budget}</label>
+                      <select id="budget" name="budget" className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all appearance-none">
+                        <option value="">—</option>
+                        {t.contact.form.budgetOptions.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.message}</label>
+                    <textarea id="message" name="message" rows={5} required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all resize-none" />
+                  </div>
+                  <button type="submit" className="btn-magnetic w-full rounded-xl bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25 hover:bg-brand-light transition-colors">
+                    {t.contact.form.submit}
+                  </button>
+                </form>
+              </div>
+            </ScrollReveal>
+
+            {/* Sidebar — Calendly + email */}
+            <ScrollReveal delay={150} className="lg:col-span-2">
+              <div className=" space-y-6">
+                <div id="calendly" className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">{t.contact.calendly}</h3>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-5">30-min strategy call. No commitment.</p>
+                  <a href="https://calendly.com/b2blast" target="_blank" rel="noopener noreferrer" className="btn-magnetic block w-full rounded-xl border border-brand/30 bg-brand/10 px-5 py-3.5 text-center text-sm font-semibold text-brand hover:bg-brand/20 transition-all">
+                    Book a call →
+                  </a>
+                </div>
+
+                <div className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">Email</h3>
+                  </div>
+                  <a href="mailto:thomas@b2blast.com" className="text-brand hover:text-brand-light transition-colors font-medium">thomas@b2blast.com</a>
+                  <p className="mt-3 text-xs text-gray-500">Response within 24 hours. French & English.</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">Location</h3>
+                  </div>
+                  <p className="text-gray-400 text-sm">Dublin, Ireland 🇮🇪</p>
+                  <p className="text-gray-500 text-xs mt-1">Remote-first — serving clients across Europe & US</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 </file>
@@ -404,7 +730,7 @@ export default function ResourcesEN() {
   }
 
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-surface">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-2xl mb-16">
@@ -493,88 +819,111 @@ export default function ResourcesEN() {
 import Link from "next/link";
 import Image from "next/image";
 import { getContent } from "@/lib/content";
+import { ServicesSchema, ServicesFAQSchema } from "@/components/StructuredData";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Services", description: "B2B paid ads management on LinkedIn, Google, Microsoft & Reddit. Bilingual French ↔ English expertise." };
+export const metadata: Metadata = { title: "Services", description: "B2B paid ads management on LinkedIn, Google, Microsoft & Reddit. Bilingual French ↔ English expertise. Packages from €2K/month." };
 
 export default function ServicesEN() {
   const t = getContent("en");
-
   return (
     <>
-      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+      <ServicesSchema />
+      <ServicesFAQSchema locale="en" />
+
+      <section className="pt-32 pb-20 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.services.title}</h1>
-            <p className="mt-4 text-lg text-gray-400 leading-relaxed">{t.services.subtitle}</p>
+          <div className="max-w-3xl">
+            <h1 className="font-heading fluid-h1 font-bold text-cream">{t.services.title}</h1>
+            <p className="mt-6 text-xl text-gray-400 leading-relaxed">{t.services.subtitle}</p>
           </div>
         </div>
       </section>
 
-      {/* Platforms */}
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="py-20 bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {t.services.platforms.map((p) => (
-              <div key={p.name} className="rounded-xl border border-white/10 bg-white/[0.03] p-6 card-hover h-full">
-                <div className="flex items-center gap-3 mb-2">
-                  <Image src={`/images/platforms/${p.icon}.png`} alt={`${p.name} logo`} width={24} height={24} className="h-6 w-6 rounded object-contain" />
-                  <h3 className="font-heading text-lg font-semibold text-white">{p.name}</h3>
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-surface mb-12">{t.services.platformsTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {t.services.platforms.map((p, i) => (
+              <ScrollReveal key={p.name} delay={i * 80}>
+                <div className="rounded-2xl border border-surface/10 bg-white/60 p-6 h-full hover:border-brand/30 transition-all group">
+                  <div className="flex items-center gap-4 mb-4">
+                    <Image src={`/images/platforms/${p.icon}.png`} alt={p.name} width={28} height={28} className="h-7 w-7 rounded object-contain" />
+                    <h3 className="font-heading text-lg font-semibold text-surface">{p.name}</h3>
+                  </div>
+                  <p className="text-sm text-surface/60 leading-relaxed">{p.description}</p>
                 </div>
-                <p className="text-sm text-gray-500">{p.description}</p>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing */}
-      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+      <section className="py-24 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-cream mb-4">{t.services.pricingTitle}</h2></ScrollReveal>
+          <ScrollReveal><p className="text-lg text-gray-400 mb-16 max-w-2xl">{t.services.pricingSubtitle}</p></ScrollReveal>
           <div className="grid md:grid-cols-3 gap-6">
-            {t.services.packages.map((pkg) => (
-              <div key={pkg.name} className={`relative rounded-2xl p-6 sm:p-8 flex flex-col ${pkg.popular ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20" : "bg-white/[0.03] border border-white/10"}`}>
-                {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand z-10">Most Popular</span>}
-                <h3 className="font-heading text-lg font-semibold text-white">{pkg.name}</h3>
-                <p className="mt-3"><span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>{pkg.period}</span></p>
-                <ul className="mt-6 space-y-3 flex-1">
-                  {pkg.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                      <span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/en/contact" className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold ${pkg.popular ? "bg-white text-brand hover:bg-gray-100" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
-              </div>
+            {t.services.packages.map((pkg, i) => (
+              <ScrollReveal key={pkg.name} delay={i * 120}>
+                <div className={`relative rounded-2xl p-8 flex flex-col h-full ${pkg.popular ? "bg-brand text-white ring-1 ring-brand-light shadow-2xl shadow-brand/20" : "bg-surface-light border border-white/[0.06]"}`}>
+                  {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-cream px-4 py-1 text-xs font-bold text-brand shadow-lg z-10">Most Popular</span>}
+                  <h3 className="font-heading text-xl font-semibold text-cream">{pkg.name}</h3>
+                  <p className="mt-4"><span className={`font-heading text-4xl font-bold ${pkg.popular ? "text-white" : "text-gradient-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/60" : "text-gray-500"}`}>{pkg.period}</span></p>
+                  <p className={`mt-2 text-sm font-medium ${pkg.popular ? "text-white/80" : "text-brand"}`}>{pkg.outcome}</p>
+                  <ul className="mt-8 space-y-3 flex-1">{pkg.features.map((f) => (<li key={f} className="flex items-start gap-2.5"><svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span></li>))}</ul>
+                  <Link href="/en/contact" className={`btn-magnetic mt-8 block w-full rounded-xl py-3.5 text-center text-sm font-semibold transition-all ${pkg.popular ? "bg-cream text-brand hover:bg-white" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Includes */}
-      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+      <section className="py-20 bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white tracking-tight mb-8">{t.services.includes.title}</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {t.services.includes.items.map((item) => (
-              <div key={item} className="flex items-start gap-3 rounded-xl bg-white/[0.03] border border-white/5 p-5 h-full">
-                <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                <span className="text-sm text-gray-400">{item}</span>
-              </div>
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-surface mb-12">{t.services.includesTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {t.services.includes.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 60}><div className="flex items-start gap-3 p-5 rounded-xl bg-white/60 border border-surface/10"><svg className="mt-0.5 h-5 w-5 text-brand flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className="text-sm text-surface/80">{item}</span></div></ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="pb-20 sm:pb-28 bg-black">
+      <section className="py-20 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center">
-            <h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p>
-            <Link href="/en/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link>
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-cream mb-12">{t.services.clientNeedsTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 gap-5">
+            {t.services.clientNeeds.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 80}><div className="flex items-start gap-4 rounded-2xl bg-surface-light border border-white/[0.06] p-6 card-hover"><span className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center text-brand font-heading font-bold">{i + 1}</span><p className="text-gray-400 leading-relaxed">{item}</p></div></ScrollReveal>
+            ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-cream">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-surface mb-14">{t.services.faqTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {t.services.faq.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 50}><div className="rounded-2xl border border-surface/10 bg-white/60 p-6 h-full hover:border-brand/30 transition-colors"><h3 className="font-heading text-base font-semibold text-surface mb-3">{item.question}</h3><p className="text-sm text-surface/60 leading-relaxed">{item.answer}</p></div></ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-surface">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+          <ScrollReveal>
+            <h2 className="font-heading fluid-h2 font-bold text-cream">{t.cta.title}</h2>
+            <p className="mt-4 text-lg text-gray-400">{t.cta.subtitle}</p>
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/en/contact" className="btn-magnetic inline-flex items-center rounded-xl bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25">{t.cta.button}</Link>
+              <Link href="/en/contact#calendly" className="inline-flex items-center rounded-xl border border-white/10 px-8 py-4 text-base font-semibold text-gray-300 hover:border-brand/40 hover:text-white transition-all">{t.cta.buttonSecondary}</Link>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
@@ -584,13 +933,13 @@ export default function ServicesEN() {
 
 <file path="app/en/layout.tsx">
 import type { Metadata } from "next";
-import { Sora, DM_Sans } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { OrganizationSchema } from "@/components/StructuredData";
 
-const sora = Sora({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700"] });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700", "800", "900"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: { default: "B2BLAST — B2B Paid Ads French ↔ English Markets", template: "%s | B2BLAST" },
@@ -607,8 +956,8 @@ export const metadata: Metadata = {
 
 export default function EnLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sora.variable} ${dmSans.variable}`}>
-      <body className="grain font-body bg-black text-white antialiased">
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="grain font-body bg-surface text-white antialiased">
         <a href="#main" className="skip-link">Skip to main content</a>
         <OrganizationSchema />
         <Header locale="en" />
@@ -624,8 +973,8 @@ export default function EnLayout({ children }: { children: React.ReactNode }) {
 import Link from "next/link";
 import Image from "next/image";
 import { getContent } from "@/lib/content";
+import { FAQSchema } from "@/components/StructuredData";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import TiltCard from "@/components/ui/TiltCard";
 import AnimatedStat from "@/components/ui/AnimatedStat";
 
 export default function HomeEN() {
@@ -633,72 +982,109 @@ export default function HomeEN() {
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-black">
-        <div className="absolute top-20 right-[10%] w-[500px] h-[500px] bg-brand/10 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-10 left-[5%] w-[400px] h-[400px] bg-brand/5 rounded-full blur-[100px] animate-float-slow" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[150px]" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
+      <FAQSchema locale="en" />
+
+      {/* ========== HERO — Editorial, high-contrast ========== */}
+      <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-surface">
+        {/* Ambient glows — orange instead of violet */}
+        <div className="absolute top-20 right-[5%] w-[500px] h-[500px] bg-brand/8 rounded-full blur-[140px] animate-pulse-glow" />
+        <div className="absolute bottom-20 left-[10%] w-[400px] h-[400px] bg-brand/5 rounded-full blur-[120px] animate-float-slow" />
+        {/* Grid texture */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
 
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-32 sm:py-40">
-          <div className="max-w-3xl">
+          <div className="max-w-4xl">
+            {/* Badge */}
             <div className="hero-animate hero-delay-1 inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand-light mb-8">
               <span className="inline-block w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
               B2B Only — French ↔ English
             </div>
-            <h1 className="hero-animate hero-delay-2 font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.05]">{t.hero.title}</h1>
-            <p className="hero-animate hero-delay-3 mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">{t.hero.subtitle}</p>
-            <p className="hero-animate hero-delay-4 mt-3 text-base text-brand-light font-medium">{t.hero.description}</p>
+
+            {/* H1 — Serif, editorial, fluid */}
+            <h1 className="hero-animate hero-delay-2 font-heading fluid-h1 font-bold text-cream leading-[1.05]">
+              Your ads work at home.<br />
+              <span className="text-gradient-brand">They fail abroad.</span>
+            </h1>
+
+            <p className="hero-animate hero-delay-3 mt-8 text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">
+              Wrong tone, wrong targeting, wrong cultural signals — money wasted. I fix that. Native bilingual French ↔ English. Ex-LinkedIn, ex-Google.
+            </p>
+
+            <p className="hero-animate hero-delay-4 mt-4 text-base text-brand font-medium tracking-wide">
+              LinkedIn · Google · Microsoft · Reddit Ads
+            </p>
+
+            {/* Dual CTAs */}
             <div className="hero-animate hero-delay-5 mt-10 flex flex-col sm:flex-row gap-4">
-              <Link href="/en/contact" className="btn-magnetic inline-flex items-center justify-center rounded-lg bg-brand px-7 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">
+              <Link href="/en/contact" className="btn-magnetic inline-flex items-center justify-center rounded-xl bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25">
                 {t.hero.cta}
                 <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </Link>
-              <Link href="/en/services" className="inline-flex items-center justify-center rounded-lg border border-gray-700 px-7 py-4 text-base font-semibold text-gray-300 hover:border-brand/50 hover:text-white transition-all">{t.hero.ctaSecondary}</Link>
+              <Link href="/en/contact#calendly" className="inline-flex items-center justify-center rounded-xl border border-white/10 px-8 py-4 text-base font-semibold text-gray-300 hover:border-brand/40 hover:text-white transition-all">
+                {t.hero.ctaSecondary}
+              </Link>
             </div>
           </div>
 
           {/* Trust bar */}
-          <div className="hero-animate hero-delay-6 mt-20 pt-8 border-t border-white/5">
-            <p className="text-xs uppercase tracking-[0.2em] text-gray-600 font-medium mb-5">{t.trust.label}</p>
+          <div className="hero-animate hero-delay-6 mt-24 pt-8 border-t border-white/[0.06]">
+            <p className="text-xs uppercase tracking-[0.25em] text-gray-600 font-medium mb-5">{t.trust.label}</p>
             <div className="flex flex-wrap items-center gap-8">
               {t.trust.employers.map((emp) => (
-                <Image key={emp.name} src={emp.logo} alt={`${emp.name} logo`} width={32} height={32} className="h-8 w-8 rounded-md object-contain opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+                <Image key={emp.name} src={emp.logo} alt={`${emp.name} logo`} width={32} height={32} className="h-8 w-8 rounded-md object-contain opacity-40 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0" />
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* PROBLEM */}
-      <section className="py-24 sm:py-32 bg-black">
+      {/* ========== DIVIDER ========== */}
+      <div className="divider-animated mx-auto max-w-6xl" />
+
+      {/* ========== PROBLEM — Stacking cards ========== */}
+      <section className="py-24 sm:py-32 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal><div className="max-w-2xl mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.problem.title}</h2></div></ScrollReveal>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <ScrollReveal>
+            <div className="max-w-2xl mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-cream">{t.problem.title}</h2>
+            </div>
+          </ScrollReveal>
+
+          {/* Stacking cards */}
+          <div className="space-y-6">
             {t.problem.items.map((item, i) => (
-              <ScrollReveal key={i} delay={i * 100}>
-                <TiltCard className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover h-full" tiltAmount={4}>
-                  <div className="flex items-start gap-4 h-full">
-                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-brand/10 text-brand text-sm font-bold">{i + 1}</span>
+              <ScrollReveal key={i} delay={i * 80}>
+                <div className="stacking-card rounded-2xl border border-white/[0.06] bg-surface-light p-8 sm:p-10 card-hover">
+                  <div className="flex items-start gap-6">
+                    <span className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-brand/10 text-brand font-heading text-xl font-bold">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <div>
-                      <h3 className="font-heading text-lg font-semibold text-white mb-2">{item.title}</h3>
-                      <p className="text-gray-400 leading-relaxed">{item.description}</p>
+                      <h3 className="font-heading text-xl font-semibold text-cream mb-2">{item.title}</h3>
+                      <p className="text-gray-400 leading-relaxed max-w-xl">{item.description}</p>
                     </div>
                   </div>
-                </TiltCard>
+                </div>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SOLUTION */}
-      <section className="py-24 sm:py-32 bg-white">
+      {/* ========== SOLUTION — Bento grid stats ========== */}
+      <section className="py-24 sm:py-32 bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal><div className="max-w-2xl mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-black tracking-tight">{t.solution.title}</h2><p className="mt-4 text-lg text-gray-600 leading-relaxed">{t.solution.subtitle}</p></div></ScrollReveal>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <ScrollReveal>
+            <div className="max-w-3xl mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-surface">{t.solution.title}</h2>
+              <p className="mt-5 text-lg text-surface/60 leading-relaxed">{t.solution.subtitle}</p>
+            </div>
+          </ScrollReveal>
+
+          {/* Bento Grid Stats */}
+          <div className="bento-grid">
             {t.solution.stats.map((stat, i) => (
-              <ScrollReveal key={i} delay={i * 120} direction="scale">
+              <ScrollReveal key={i} delay={i * 100} direction="scale" className={`${i === 0 ? "col-span-12 md:col-span-7" : i === 1 ? "col-span-12 md:col-span-5" : i === 2 ? "col-span-12 md:col-span-5" : "col-span-12 md:col-span-7"}`}>
                 <AnimatedStat value={stat.value} label={stat.label} />
               </ScrollReveal>
             ))}
@@ -706,65 +1092,137 @@ export default function HomeEN() {
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section className="py-24 sm:py-32 bg-black">
+      {/* ========== PROCESS — Timeline with numbers ========== */}
+      <section className="py-24 sm:py-32 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal><div className="text-center mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.services.title}</h2><p className="mt-3 text-lg text-gray-400">{t.services.subtitle}</p></div></ScrollReveal>
+          <ScrollReveal>
+            <div className="max-w-2xl mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-cream">{t.process.title}</h2>
+              <p className="mt-4 text-lg text-gray-400">{t.process.subtitle}</p>
+            </div>
+          </ScrollReveal>
 
-          {/* Platform cards */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-            {t.services.platforms.map((platform, i) => (
-              <ScrollReveal key={platform.name} delay={i * 80}>
-                <TiltCard className="rounded-xl border border-white/10 bg-white/[0.03] p-5 card-hover h-full" tiltAmount={5} glare={false}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <Image src={`/images/platforms/${platform.icon}.png`} alt={`${platform.name} logo`} width={24} height={24} className="h-6 w-6 rounded object-contain" />
-                    <h3 className="font-heading font-semibold text-white">{platform.name}</h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+            {t.process.steps.map((step, i) => (
+              <ScrollReveal key={i} delay={i * 120}>
+                <div className="bg-surface p-8 h-full group hover:bg-surface-light transition-colors duration-500">
+                  <div className="flex items-baseline gap-3 mb-5">
+                    <span className="font-heading text-5xl font-bold text-brand/20 group-hover:text-brand/40 transition-colors">{step.step}</span>
+                    <span className="text-xs text-brand font-semibold uppercase tracking-wider">{step.duration}</span>
                   </div>
-                  <p className="text-sm text-gray-500">{platform.description}</p>
-                </TiltCard>
-              </ScrollReveal>
-            ))}
-          </div>
-
-          {/* Pricing cards — flex col + mt-auto for aligned CTAs */}
-          <div className="grid md:grid-cols-3 gap-6">
-            {t.services.packages.map((pkg, i) => (
-              <ScrollReveal key={pkg.name} delay={i * 120}>
-                <TiltCard className={`relative rounded-2xl p-6 sm:p-8 h-full ${pkg.popular ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20" : "bg-white/[0.03] border border-white/10"}`} tiltAmount={3}>
-                  <div className="flex flex-col h-full">
-                    {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand shadow-lg z-10">Most Popular</span>}
-                    <h3 className="font-heading text-lg font-semibold text-white">{pkg.name}</h3>
-                    <p className="mt-3"><span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>{pkg.period}</span></p>
-                    <ul className="mt-6 space-y-3 flex-1">
-                      {pkg.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2">
-                          <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                          <span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href="/en/contact" className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold transition-all ${pkg.popular ? "bg-white text-brand hover:bg-gray-100" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
-                  </div>
-                </TiltCard>
+                  <h3 className="font-heading text-lg font-semibold text-cream mb-3">{step.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">{step.description}</p>
+                </div>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 sm:py-32 bg-white">
+      {/* ========== SERVICES — Platforms + Pricing ========== */}
+      <section className="py-24 sm:py-32 bg-surface border-t border-white/[0.04]">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-cream">{t.services.title}</h2>
+              <p className="mt-3 text-lg text-gray-400">{t.services.subtitle}</p>
+            </div>
+          </ScrollReveal>
+
+          {/* Platform pills */}
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
+            {t.services.platforms.map((platform, i) => (
+              <ScrollReveal key={platform.name} delay={i * 60}>
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/[0.08] bg-surface-light px-5 py-3 card-hover">
+                  <Image src={`/images/platforms/${platform.icon}.png`} alt={`${platform.name} logo`} width={20} height={20} className="h-5 w-5 rounded object-contain" />
+                  <div>
+                    <span className="font-heading text-sm font-semibold text-cream">{platform.name}</span>
+                    <span className="hidden sm:inline text-xs text-gray-500 ml-2">— {platform.description}</span>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          {/* Pricing */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {t.services.packages.map((pkg, i) => (
+              <ScrollReveal key={pkg.name} delay={i * 120}>
+                <div className={`relative rounded-2xl p-8 flex flex-col h-full ${
+                  pkg.popular
+                    ? "bg-brand text-white ring-1 ring-brand-light shadow-2xl shadow-brand/20"
+                    : "bg-surface-light border border-white/[0.06]"
+                }`}>
+                  {pkg.popular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-cream px-4 py-1 text-xs font-bold text-brand shadow-lg z-10">
+                      Most Popular
+                    </span>
+                  )}
+                  <h3 className="font-heading text-xl font-semibold text-cream">{pkg.name}</h3>
+                  <p className="mt-4">
+                    <span className={`font-heading text-4xl font-bold ${pkg.popular ? "text-white" : "text-gradient-brand"}`}>{pkg.price}</span>
+                    <span className={`text-sm ${pkg.popular ? "text-white/60" : "text-gray-500"}`}>{pkg.period}</span>
+                  </p>
+                  <p className={`mt-2 text-sm font-medium ${pkg.popular ? "text-white/80" : "text-brand"}`}>{pkg.outcome}</p>
+
+                  <ul className="mt-8 space-y-3 flex-1">
+                    {pkg.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5">
+                        <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                        <span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link href="/en/contact" className={`btn-magnetic mt-8 block w-full rounded-xl py-3.5 text-center text-sm font-semibold transition-all ${
+                    pkg.popular ? "bg-cream text-brand hover:bg-white" : "bg-brand text-white hover:bg-brand-light"
+                  }`}>{pkg.cta}</Link>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== FAQ — Cream section ========== */}
+      <section className="py-24 sm:py-32 bg-cream">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="max-w-2xl mb-14">
+              <h2 className="font-heading fluid-h2 font-bold text-surface">{t.faq.title}</h2>
+            </div>
+          </ScrollReveal>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {t.faq.items.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 50}>
+                <div className="rounded-2xl border border-surface/10 bg-white/60 backdrop-blur-sm p-6 h-full hover:border-brand/30 transition-colors duration-300">
+                  <h3 className="font-heading text-base font-semibold text-surface mb-3">{item.question}</h3>
+                  <p className="text-sm text-surface/60 leading-relaxed">{item.answer}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== CTA — Full impact ========== */}
+      <section className="py-24 sm:py-32 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <ScrollReveal direction="scale">
-            <div className="relative overflow-hidden rounded-3xl bg-black px-8 py-20 sm:px-16 sm:py-24 text-center">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-brand/20 rounded-full blur-[100px] animate-pulse-glow" />
-              <div className="absolute bottom-0 left-0 w-60 h-60 bg-brand/10 rounded-full blur-[80px]" />
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand/20 via-surface-light to-surface-light px-8 py-20 sm:px-16 sm:py-28 text-center border border-brand/10">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-brand/15 rounded-full blur-[120px] animate-pulse-glow" />
+              <div className="absolute bottom-0 left-0 w-72 h-72 bg-brand/8 rounded-full blur-[100px]" />
               <div className="relative">
-                <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.cta.title}</h2>
+                <h2 className="font-heading fluid-h2 font-bold text-cream">{t.cta.title}</h2>
                 <p className="mx-auto mt-5 max-w-xl text-lg text-gray-400 leading-relaxed">{t.cta.subtitle}</p>
                 <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link href="/en/contact" className="btn-magnetic inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}<svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></Link>
-                  <a href={`mailto:${t.cta.email}`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.cta.email}</a>
+                  <Link href="/en/contact" className="btn-magnetic inline-flex items-center rounded-xl bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25">
+                    {t.cta.button}
+                    <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                  </Link>
+                  <Link href="/en/contact#calendly" className="inline-flex items-center rounded-xl border border-white/10 px-8 py-4 text-base font-semibold text-gray-300 hover:border-brand/40 hover:text-white transition-all">
+                    {t.cta.buttonSecondary}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -792,7 +1250,7 @@ export default function AboutFR() {
 
   return (
     <>
-      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start gap-8">
             <div className="flex-shrink-0">
@@ -810,12 +1268,12 @@ export default function AboutFR() {
         </div>
       </section>
 
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="pb-16 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h2 className="font-heading text-2xl font-bold text-white mb-8">Expérience</h2>
           <div className="space-y-6">
             {t.about.experience.map((exp) => (
-              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover">
+              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-cream/[0.03] p-6 sm:p-8 card-hover">
                 <div className="flex-shrink-0"><Image src={exp.logo} alt={`Logo ${exp.company}`} width={40} height={40} className="h-10 w-10 rounded-xl object-contain" /></div>
                 <div className="min-w-0">
                   <h3 className="font-heading font-semibold text-white">{exp.role} <span className="text-brand">@ {exp.company}</span></h3>
@@ -828,9 +1286,9 @@ export default function AboutFR() {
         </div>
       </section>
 
-      <section className="pb-16 sm:pb-20 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-2xl bg-white/[0.03] border border-white/10 p-8 sm:p-10"><h2 className="font-heading text-xl font-bold text-white mb-3">Localisation & Disponibilité</h2><p className="text-gray-400 leading-relaxed">{t.about.location}</p></div></div></section>
+      <section className="pb-16 sm:pb-20 bg-surface"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-2xl bg-cream/[0.03] border border-white/10 p-8 sm:p-10"><h2 className="font-heading text-xl font-bold text-white mb-3">Localisation & Disponibilité</h2><p className="text-gray-400 leading-relaxed">{t.about.location}</p></div></div></section>
 
-      <section className="pb-20 sm:pb-28 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center"><h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2><p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p><Link href="/fr/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link></div></div></section>
+      <section className="pb-20 sm:pb-28 bg-surface"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center"><h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2><p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p><Link href="/fr/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link></div></div></section>
     </>
   );
 }
@@ -843,7 +1301,7 @@ export const metadata: Metadata = { title: "Blog", description: "Insights paid a
 
 export default function BlogFR() {
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-surface">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">Blog</h1>
         <p className="mt-4 text-lg text-gray-400">Bientôt disponible — Insights ads B2B pour les entreprises qui se développent entre les marchés français et anglais.</p>
@@ -854,58 +1312,108 @@ export default function BlogFR() {
 </file>
 
 <file path="app/fr/contact/page.tsx">
-"use client";
-
-import { useState } from "react";
 import { getContent } from "@/lib/content";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Contact", description: "Contactez-nous pour votre stratégie paid ads B2B. Plan de croissance gratuit et appel stratégie 30 min disponibles." };
 
 export default function ContactFR() {
   const t = getContent("fr");
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    const form = e.currentTarget;
-    const data = {
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      company: (form.elements.namedItem("company") as HTMLInputElement).value,
-      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
-    };
-    try {
-      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      if (res.ok) setSubmitted(true);
-    } catch { /* silent */ } finally { setLoading(false); }
-  }
 
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-10">
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.contact.title}</h1>
-          <p className="mt-3 text-lg text-gray-400">{t.contact.subtitle}</p>
-        </div>
-        {submitted ? (
-          <div className="rounded-2xl bg-brand/10 border border-brand/30 p-8 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand/20 mb-4">
-              <svg className="h-6 w-6 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-            </div>
-            <p className="font-heading text-lg font-semibold text-white">{t.contact.form.success}</p>
+    <>
+      <section className="pt-32 pb-10 bg-surface">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <h1 className="font-heading fluid-h1 font-bold text-cream">{t.contact.title}</h1>
+            <p className="mt-5 text-xl text-gray-400 leading-relaxed">{t.contact.subtitle}</p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div><label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.name}</label><input type="text" id="name" name="name" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" /></div>
-            <div><label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.email}</label><input type="email" id="email" name="email" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" /></div>
-            <div><label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.company}</label><input type="text" id="company" name="company" required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors" /></div>
-            <div><label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1.5">{t.contact.form.message}</label><textarea id="message" name="message" rows={5} required className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-gray-600 focus:border-brand focus:ring-2 focus:ring-brand/20 transition-colors resize-none" /></div>
-            <button type="submit" disabled={loading} className="btn-magnetic w-full rounded-lg bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30 hover:bg-brand-light transition-all disabled:opacity-60">{loading ? "..." : t.contact.form.submit}</button>
-          </form>
-        )}
-        <div className="mt-10 pt-8 border-t border-white/5 text-center"><a href="mailto:thomas@b2blast.com" className="text-sm font-medium text-brand hover:text-brand-light transition-colors">thomas@b2blast.com</a></div>
-      </div>
-    </section>
+        </div>
+      </section>
+
+      <section className="py-16 bg-surface">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-5 gap-10">
+            <ScrollReveal className="lg:col-span-3">
+              <div className=" rounded-2xl bg-cream p-8 sm:p-10">
+                <form action="/api/contact" method="POST" className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.name}</label>
+                      <input id="name" name="name" type="text" required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.email}</label>
+                      <input id="email" name="email" type="email" required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="company" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.company}</label>
+                      <input id="company" name="company" type="text" className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all" />
+                    </div>
+                    <div>
+                      <label htmlFor="budget" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.budget}</label>
+                      <select id="budget" name="budget" className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all appearance-none">
+                        <option value="">—</option>
+                        {t.contact.form.budgetOptions.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-surface mb-1.5">{t.contact.form.message}</label>
+                    <textarea id="message" name="message" rows={5} required className="w-full rounded-xl border border-surface/15 bg-white px-4 py-3 text-sm text-surface placeholder-surface/40 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all resize-none" />
+                  </div>
+                  <button type="submit" className="btn-magnetic w-full rounded-xl bg-brand px-6 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25 hover:bg-brand-light transition-colors">
+                    {t.contact.form.submit}
+                  </button>
+                </form>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={150} className="lg:col-span-2">
+              <div className=" space-y-6">
+                <div id="calendly" className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">{t.contact.calendly}</h3>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-5">Appel stratégie 30 min. Sans engagement.</p>
+                  <a href="https://calendly.com/b2blast" target="_blank" rel="noopener noreferrer" className="btn-magnetic block w-full rounded-xl border border-brand/30 bg-brand/10 px-5 py-3.5 text-center text-sm font-semibold text-brand hover:bg-brand/20 transition-all">
+                    Réserver un appel →
+                  </a>
+                </div>
+
+                <div className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">Email</h3>
+                  </div>
+                  <a href="mailto:thomas@b2blast.com" className="text-brand hover:text-brand-light transition-colors font-medium">thomas@b2blast.com</a>
+                  <p className="mt-3 text-xs text-gray-500">Réponse sous 24h. Français & Anglais.</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/[0.06] bg-surface-light p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+                      <svg className="h-5 w-5 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                    </div>
+                    <h3 className="font-heading text-lg font-semibold text-cream">Localisation</h3>
+                  </div>
+                  <p className="text-gray-400 text-sm">Dublin, Irlande 🇮🇪</p>
+                  <p className="text-gray-500 text-xs mt-1">100% remote — clients en Europe & US</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 </file>
@@ -961,7 +1469,7 @@ export default function ResourcesFR() {
   }
 
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-surface">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand-light mb-6">
@@ -1020,84 +1528,111 @@ export default function ResourcesFR() {
 import Link from "next/link";
 import Image from "next/image";
 import { getContent } from "@/lib/content";
+import { ServicesSchema, ServicesFAQSchema } from "@/components/StructuredData";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Services", description: "Gestion paid ads B2B sur LinkedIn, Google, Microsoft & Reddit. Expertise bilingue Français ↔ Anglais." };
+export const metadata: Metadata = { title: "Services", description: "Gestion paid ads B2B sur LinkedIn, Google, Microsoft & Reddit. Expertise bilingue Français ↔ Anglais. Packages à partir de €2K/mois." };
 
 export default function ServicesFR() {
   const t = getContent("fr");
-
   return (
     <>
-      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+      <ServicesSchema />
+      <ServicesFAQSchema locale="fr" />
+
+      <section className="pt-32 pb-20 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.services.title}</h1>
-            <p className="mt-4 text-lg text-gray-400 leading-relaxed">{t.services.subtitle}</p>
+          <div className="max-w-3xl">
+            <h1 className="font-heading fluid-h1 font-bold text-cream">{t.services.title}</h1>
+            <p className="mt-6 text-xl text-gray-400 leading-relaxed">{t.services.subtitle}</p>
           </div>
         </div>
       </section>
 
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="py-20 bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {t.services.platforms.map((p) => (
-              <div key={p.name} className="rounded-xl border border-white/10 bg-white/[0.03] p-6 card-hover h-full">
-                <div className="flex items-center gap-3 mb-2">
-                  <Image src={`/images/platforms/${p.icon}.png`} alt={`Logo ${p.name}`} width={24} height={24} className="h-6 w-6 rounded object-contain" />
-                  <h3 className="font-heading text-lg font-semibold text-white">{p.name}</h3>
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-surface mb-12">{t.services.platformsTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {t.services.platforms.map((p, i) => (
+              <ScrollReveal key={p.name} delay={i * 80}>
+                <div className="rounded-2xl border border-surface/10 bg-white/60 p-6 h-full hover:border-brand/30 transition-all group">
+                  <div className="flex items-center gap-4 mb-4">
+                    <Image src={`/images/platforms/${p.icon}.png`} alt={p.name} width={28} height={28} className="h-7 w-7 rounded object-contain" />
+                    <h3 className="font-heading text-lg font-semibold text-surface">{p.name}</h3>
+                  </div>
+                  <p className="text-sm text-surface/60 leading-relaxed">{p.description}</p>
                 </div>
-                <p className="text-sm text-gray-500">{p.description}</p>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+      <section className="py-24 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-cream mb-4">{t.services.pricingTitle}</h2></ScrollReveal>
+          <ScrollReveal><p className="text-lg text-gray-400 mb-16 max-w-2xl">{t.services.pricingSubtitle}</p></ScrollReveal>
           <div className="grid md:grid-cols-3 gap-6">
-            {t.services.packages.map((pkg) => (
-              <div key={pkg.name} className={`relative rounded-2xl p-6 sm:p-8 flex flex-col ${pkg.popular ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20" : "bg-white/[0.03] border border-white/10"}`}>
-                {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand z-10">Le + populaire</span>}
-                <h3 className="font-heading text-lg font-semibold text-white">{pkg.name}</h3>
-                <p className="mt-3"><span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>{pkg.period}</span></p>
-                <ul className="mt-6 space-y-3 flex-1">
-                  {pkg.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                      <span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Link href="/fr/contact" className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold ${pkg.popular ? "bg-white text-brand hover:bg-gray-100" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
-              </div>
+            {t.services.packages.map((pkg, i) => (
+              <ScrollReveal key={pkg.name} delay={i * 120}>
+                <div className={`relative rounded-2xl p-8 flex flex-col h-full ${pkg.popular ? "bg-brand text-white ring-1 ring-brand-light shadow-2xl shadow-brand/20" : "bg-surface-light border border-white/[0.06]"}`}>
+                  {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-cream px-4 py-1 text-xs font-bold text-brand shadow-lg z-10">Populaire</span>}
+                  <h3 className="font-heading text-xl font-semibold text-cream">{pkg.name}</h3>
+                  <p className="mt-4"><span className={`font-heading text-4xl font-bold ${pkg.popular ? "text-white" : "text-gradient-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/60" : "text-gray-500"}`}>{pkg.period}</span></p>
+                  <p className={`mt-2 text-sm font-medium ${pkg.popular ? "text-white/80" : "text-brand"}`}>{pkg.outcome}</p>
+                  <ul className="mt-8 space-y-3 flex-1">{pkg.features.map((f) => (<li key={f} className="flex items-start gap-2.5"><svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span></li>))}</ul>
+                  <Link href="/fr/contact" className={`btn-magnetic mt-8 block w-full rounded-xl py-3.5 text-center text-sm font-semibold transition-all ${pkg.popular ? "bg-cream text-brand hover:bg-white" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 bg-black border-t border-white/5">
+      <section className="py-20 bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-white tracking-tight mb-8">{t.services.includes.title}</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {t.services.includes.items.map((item) => (
-              <div key={item} className="flex items-start gap-3 rounded-xl bg-white/[0.03] border border-white/5 p-5 h-full">
-                <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                <span className="text-sm text-gray-400">{item}</span>
-              </div>
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-surface mb-12">{t.services.includesTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {t.services.includes.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 60}><div className="flex items-start gap-3 p-5 rounded-xl bg-white/60 border border-surface/10"><svg className="mt-0.5 h-5 w-5 text-brand flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg><span className="text-sm text-surface/80">{item}</span></div></ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="pb-20 sm:pb-28 bg-black">
+      <section className="py-20 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center">
-            <h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p>
-            <Link href="/fr/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link>
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-cream mb-12">{t.services.clientNeedsTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 gap-5">
+            {t.services.clientNeeds.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 80}><div className="flex items-start gap-4 rounded-2xl bg-surface-light border border-white/[0.06] p-6 card-hover"><span className="flex-shrink-0 w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center text-brand font-heading font-bold">{i + 1}</span><p className="text-gray-400 leading-relaxed">{item}</p></div></ScrollReveal>
+            ))}
           </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-cream">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal><h2 className="font-heading fluid-h2 font-bold text-surface mb-14">{t.services.faqTitle}</h2></ScrollReveal>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {t.services.faq.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 50}><div className="rounded-2xl border border-surface/10 bg-white/60 p-6 h-full hover:border-brand/30 transition-colors"><h3 className="font-heading text-base font-semibold text-surface mb-3">{item.question}</h3><p className="text-sm text-surface/60 leading-relaxed">{item.answer}</p></div></ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-surface">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+          <ScrollReveal>
+            <h2 className="font-heading fluid-h2 font-bold text-cream">{t.cta.title}</h2>
+            <p className="mt-4 text-lg text-gray-400">{t.cta.subtitle}</p>
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/fr/contact" className="btn-magnetic inline-flex items-center rounded-xl bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25">{t.cta.button}</Link>
+              <Link href="/fr/contact#calendly" className="inline-flex items-center rounded-xl border border-white/10 px-8 py-4 text-base font-semibold text-gray-300 hover:border-brand/40 hover:text-white transition-all">{t.cta.buttonSecondary}</Link>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
@@ -1107,18 +1642,18 @@ export default function ServicesFR() {
 
 <file path="app/fr/layout.tsx">
 import type { Metadata } from "next";
-import { Sora, DM_Sans } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { OrganizationSchema } from "@/components/StructuredData";
 
-const sora = Sora({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700"] });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700", "800", "900"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: { default: "B2BLAST — Paid Ads B2B Marchés Français ↔ Anglais", template: "%s | B2BLAST" },
-  description: "Expert paid ads B2B bilingue natif. LinkedIn, Google, Microsoft Ads pour SaaS français en expansion UK/US et entreprises internationales entrant en France.",
-  keywords: ["ads B2B", "LinkedIn ads", "Google ads B2B", "marketing bilingue", "SaaS français", "expansion internationale", "agence paid ads"],
+  description: "Expert paid ads B2B bilingue natif. LinkedIn, Google, Microsoft Ads pour SaaS français à l'international et entreprises internationales entrant en France.",
+  keywords: ["ads B2B", "LinkedIn ads", "Google ads B2B", "marketing bilingue", "SaaS français", "expansion internationale"],
   authors: [{ name: "Thomas Germain", url: "https://b2blast.com/fr/about" }],
   creator: "Thomas Germain",
   publisher: "B2BLAST",
@@ -1130,9 +1665,9 @@ export const metadata: Metadata = {
 
 export default function FrLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${sora.variable} ${dmSans.variable}`}>
-      <body className="grain font-body bg-black text-white antialiased">
-        <a href="#main" className="skip-link">Aller au contenu principal</a>
+    <html lang="fr" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="grain font-body bg-surface text-white antialiased">
+        <a href="#main" className="skip-link">Aller au contenu</a>
         <OrganizationSchema />
         <Header locale="fr" />
         <main id="main">{children}</main>
@@ -1147,8 +1682,8 @@ export default function FrLayout({ children }: { children: React.ReactNode }) {
 import Link from "next/link";
 import Image from "next/image";
 import { getContent } from "@/lib/content";
+import { FAQSchema } from "@/components/StructuredData";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import TiltCard from "@/components/ui/TiltCard";
 import AnimatedStat from "@/components/ui/AnimatedStat";
 
 export default function HomeFR() {
@@ -1156,71 +1691,98 @@ export default function HomeFR() {
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-black">
-        <div className="absolute top-20 right-[10%] w-[500px] h-[500px] bg-brand/10 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-10 left-[5%] w-[400px] h-[400px] bg-brand/5 rounded-full blur-[100px] animate-float-slow" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[150px]" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`, backgroundSize: "60px 60px" }} />
+      <FAQSchema locale="fr" />
+
+      {/* ========== HERO ========== */}
+      <section className="relative min-h-[95vh] flex items-center overflow-hidden bg-surface">
+        <div className="absolute top-20 right-[5%] w-[500px] h-[500px] bg-brand/8 rounded-full blur-[140px] animate-pulse-glow" />
+        <div className="absolute bottom-20 left-[10%] w-[400px] h-[400px] bg-brand/5 rounded-full blur-[120px] animate-float-slow" />
+        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)", backgroundSize: "80px 80px" }} />
 
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-32 sm:py-40">
-          <div className="max-w-3xl">
+          <div className="max-w-4xl">
             <div className="hero-animate hero-delay-1 inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand-light mb-8">
               <span className="inline-block w-1.5 h-1.5 bg-brand rounded-full animate-pulse" />
-              B2B Uniquement — Français ↔ Anglais
+              B2B Only — Français ↔ Anglais
             </div>
-            <h1 className="hero-animate hero-delay-2 font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white leading-[1.05]">{t.hero.title}</h1>
-            <p className="hero-animate hero-delay-3 mt-6 text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">{t.hero.subtitle}</p>
-            <p className="hero-animate hero-delay-4 mt-3 text-base text-brand-light font-medium">{t.hero.description}</p>
+
+            <h1 className="hero-animate hero-delay-2 font-heading fluid-h1 font-bold text-cream leading-[1.05]">
+              Vos ads marchent chez vous.<br />
+              <span className="text-gradient-brand">Elles échouent à l&apos;étranger.</span>
+            </h1>
+
+            <p className="hero-animate hero-delay-3 mt-8 text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">
+              Mauvais ton, mauvais ciblage, mauvais signaux culturels — budget gaspillé. Je règle ça. Bilingue natif Français ↔ Anglais. Ex-LinkedIn, ex-Google.
+            </p>
+
+            <p className="hero-animate hero-delay-4 mt-4 text-base text-brand font-medium tracking-wide">
+              LinkedIn · Google · Microsoft · Reddit Ads
+            </p>
+
             <div className="hero-animate hero-delay-5 mt-10 flex flex-col sm:flex-row gap-4">
-              <Link href="/fr/contact" className="btn-magnetic inline-flex items-center justify-center rounded-lg bg-brand px-7 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">
+              <Link href="/fr/contact" className="btn-magnetic inline-flex items-center justify-center rounded-xl bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25">
                 {t.hero.cta}
                 <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </Link>
-              <Link href="/fr/services" className="inline-flex items-center justify-center rounded-lg border border-gray-700 px-7 py-4 text-base font-semibold text-gray-300 hover:border-brand/50 hover:text-white transition-all">{t.hero.ctaSecondary}</Link>
+              <Link href="/fr/contact#calendly" className="inline-flex items-center justify-center rounded-xl border border-white/10 px-8 py-4 text-base font-semibold text-gray-300 hover:border-brand/40 hover:text-white transition-all">
+                {t.hero.ctaSecondary}
+              </Link>
             </div>
           </div>
 
-          <div className="hero-animate hero-delay-6 mt-20 pt-8 border-t border-white/5">
-            <p className="text-xs uppercase tracking-[0.2em] text-gray-600 font-medium mb-5">{t.trust.label}</p>
+          <div className="hero-animate hero-delay-6 mt-24 pt-8 border-t border-white/[0.06]">
+            <p className="text-xs uppercase tracking-[0.25em] text-gray-600 font-medium mb-5">{t.trust.label}</p>
             <div className="flex flex-wrap items-center gap-8">
               {t.trust.employers.map((emp) => (
-                <Image key={emp.name} src={emp.logo} alt={`Logo ${emp.name}`} width={32} height={32} className="h-8 w-8 rounded-md object-contain opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+                <Image key={emp.name} src={emp.logo} alt={`${emp.name} logo`} width={32} height={32} className="h-8 w-8 rounded-md object-contain opacity-40 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0" />
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* PROBLEM */}
-      <section className="py-24 sm:py-32 bg-black">
+      <div className="divider-animated mx-auto max-w-6xl" />
+
+      {/* ========== PROBLEM ========== */}
+      <section className="py-24 sm:py-32 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal><div className="max-w-2xl mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.problem.title}</h2></div></ScrollReveal>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <ScrollReveal>
+            <div className="max-w-2xl mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-cream">{t.problem.title}</h2>
+            </div>
+          </ScrollReveal>
+          <div className="space-y-6">
             {t.problem.items.map((item, i) => (
-              <ScrollReveal key={i} delay={i * 100}>
-                <TiltCard className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover h-full" tiltAmount={4}>
-                  <div className="flex items-start gap-4 h-full">
-                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-brand/10 text-brand text-sm font-bold">{i + 1}</span>
+              <ScrollReveal key={i} delay={i * 80}>
+                <div className="stacking-card rounded-2xl border border-white/[0.06] bg-surface-light p-8 sm:p-10 card-hover">
+                  <div className="flex items-start gap-6">
+                    <span className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-brand/10 text-brand font-heading text-xl font-bold">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <div>
-                      <h3 className="font-heading text-lg font-semibold text-white mb-2">{item.title}</h3>
-                      <p className="text-gray-400 leading-relaxed">{item.description}</p>
+                      <h3 className="font-heading text-xl font-semibold text-cream mb-2">{item.title}</h3>
+                      <p className="text-gray-400 leading-relaxed max-w-xl">{item.description}</p>
                     </div>
                   </div>
-                </TiltCard>
+                </div>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SOLUTION */}
-      <section className="py-24 sm:py-32 bg-white">
+      {/* ========== SOLUTION ========== */}
+      <section className="py-24 sm:py-32 bg-cream">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal><div className="max-w-2xl mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-black tracking-tight">{t.solution.title}</h2><p className="mt-4 text-lg text-gray-600 leading-relaxed">{t.solution.subtitle}</p></div></ScrollReveal>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <ScrollReveal>
+            <div className="max-w-3xl mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-surface">{t.solution.title}</h2>
+              <p className="mt-5 text-lg text-surface/60 leading-relaxed">{t.solution.subtitle}</p>
+            </div>
+          </ScrollReveal>
+          <div className="bento-grid">
             {t.solution.stats.map((stat, i) => (
-              <ScrollReveal key={i} delay={i * 120} direction="scale">
+              <ScrollReveal key={i} delay={i * 100} direction="scale" className={`${i === 0 ? "col-span-12 md:col-span-7" : i === 1 ? "col-span-12 md:col-span-5" : i === 2 ? "col-span-12 md:col-span-5" : "col-span-12 md:col-span-7"}`}>
                 <AnimatedStat value={stat.value} label={stat.label} />
               </ScrollReveal>
             ))}
@@ -1228,21 +1790,52 @@ export default function HomeFR() {
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section className="py-24 sm:py-32 bg-black">
+      {/* ========== PROCESS ========== */}
+      <section className="py-24 sm:py-32 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal><div className="text-center mb-14"><h2 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight">{t.services.title}</h2><p className="mt-3 text-lg text-gray-400">{t.services.subtitle}</p></div></ScrollReveal>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-            {t.services.platforms.map((platform, i) => (
-              <ScrollReveal key={platform.name} delay={i * 80}>
-                <TiltCard className="rounded-xl border border-white/10 bg-white/[0.03] p-5 card-hover h-full" tiltAmount={5} glare={false}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <Image src={`/images/platforms/${platform.icon}.png`} alt={`Logo ${platform.name}`} width={24} height={24} className="h-6 w-6 rounded object-contain" />
-                    <h3 className="font-heading font-semibold text-white">{platform.name}</h3>
+          <ScrollReveal>
+            <div className="max-w-2xl mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-cream">{t.process.title}</h2>
+              <p className="mt-4 text-lg text-gray-400">{t.process.subtitle}</p>
+            </div>
+          </ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.04] rounded-2xl overflow-hidden">
+            {t.process.steps.map((step, i) => (
+              <ScrollReveal key={i} delay={i * 120}>
+                <div className="bg-surface p-8 h-full group hover:bg-surface-light transition-colors duration-500">
+                  <div className="flex items-baseline gap-3 mb-5">
+                    <span className="font-heading text-5xl font-bold text-brand/20 group-hover:text-brand/40 transition-colors">{step.step}</span>
+                    <span className="text-xs text-brand font-semibold uppercase tracking-wider">{step.duration}</span>
                   </div>
-                  <p className="text-sm text-gray-500">{platform.description}</p>
-                </TiltCard>
+                  <h3 className="font-heading text-lg font-semibold text-cream mb-3">{step.title}</h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">{step.description}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== SERVICES ========== */}
+      <section className="py-24 sm:py-32 bg-surface border-t border-white/[0.04]">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="font-heading fluid-h2 font-bold text-cream">{t.services.title}</h2>
+              <p className="mt-3 text-lg text-gray-400">{t.services.subtitle}</p>
+            </div>
+          </ScrollReveal>
+
+          <div className="flex flex-wrap justify-center gap-3 mb-16">
+            {t.services.platforms.map((platform, i) => (
+              <ScrollReveal key={platform.name} delay={i * 60}>
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/[0.08] bg-surface-light px-5 py-3 card-hover">
+                  <Image src={`/images/platforms/${platform.icon}.png`} alt={`${platform.name} logo`} width={20} height={20} className="h-5 w-5 rounded object-contain" />
+                  <div>
+                    <span className="font-heading text-sm font-semibold text-cream">{platform.name}</span>
+                    <span className="hidden sm:inline text-xs text-gray-500 ml-2">— {platform.description}</span>
+                  </div>
+                </div>
               </ScrollReveal>
             ))}
           </div>
@@ -1250,41 +1843,69 @@ export default function HomeFR() {
           <div className="grid md:grid-cols-3 gap-6">
             {t.services.packages.map((pkg, i) => (
               <ScrollReveal key={pkg.name} delay={i * 120}>
-                <TiltCard className={`relative rounded-2xl p-6 sm:p-8 h-full ${pkg.popular ? "bg-brand text-white ring-2 ring-brand-light shadow-xl shadow-brand/20" : "bg-white/[0.03] border border-white/10"}`} tiltAmount={3}>
-                  <div className="flex flex-col h-full">
-                    {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1 text-xs font-semibold text-brand shadow-lg z-10">Le + populaire</span>}
-                    <h3 className="font-heading text-lg font-semibold text-white">{pkg.name}</h3>
-                    <p className="mt-3"><span className={`font-heading text-3xl font-bold ${pkg.popular ? "text-white" : "text-brand"}`}>{pkg.price}</span><span className={`text-sm ${pkg.popular ? "text-white/70" : "text-gray-500"}`}>{pkg.period}</span></p>
-                    <ul className="mt-6 space-y-3 flex-1">
-                      {pkg.features.map((f) => (
-                        <li key={f} className="flex items-start gap-2">
-                          <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                          <span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href="/fr/contact" className={`btn-magnetic mt-8 block w-full rounded-lg py-3 text-center text-sm font-semibold transition-all ${pkg.popular ? "bg-white text-brand hover:bg-gray-100" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
-                  </div>
-                </TiltCard>
+                <div className={`relative rounded-2xl p-8 flex flex-col h-full ${pkg.popular ? "bg-brand text-white ring-1 ring-brand-light shadow-2xl shadow-brand/20" : "bg-surface-light border border-white/[0.06]"}`}>
+                  {pkg.popular && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-cream px-4 py-1 text-xs font-bold text-brand shadow-lg z-10">Populaire</span>}
+                  <h3 className="font-heading text-xl font-semibold text-cream">{pkg.name}</h3>
+                  <p className="mt-4">
+                    <span className={`font-heading text-4xl font-bold ${pkg.popular ? "text-white" : "text-gradient-brand"}`}>{pkg.price}</span>
+                    <span className={`text-sm ${pkg.popular ? "text-white/60" : "text-gray-500"}`}>{pkg.period}</span>
+                  </p>
+                  <p className={`mt-2 text-sm font-medium ${pkg.popular ? "text-white/80" : "text-brand"}`}>{pkg.outcome}</p>
+                  <ul className="mt-8 space-y-3 flex-1">
+                    {pkg.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5">
+                        <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${pkg.popular ? "text-white" : "text-brand"}`} fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                        <span className={`text-sm ${pkg.popular ? "text-white/80" : "text-gray-400"}`}>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/fr/contact" className={`btn-magnetic mt-8 block w-full rounded-xl py-3.5 text-center text-sm font-semibold transition-all ${pkg.popular ? "bg-cream text-brand hover:bg-white" : "bg-brand text-white hover:bg-brand-light"}`}>{pkg.cta}</Link>
+                </div>
               </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 sm:py-32 bg-white">
+      {/* ========== FAQ ========== */}
+      <section className="py-24 sm:py-32 bg-cream">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="max-w-2xl mb-14">
+              <h2 className="font-heading fluid-h2 font-bold text-surface">{t.faq.title}</h2>
+            </div>
+          </ScrollReveal>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {t.faq.items.map((item, i) => (
+              <ScrollReveal key={i} delay={i * 50}>
+                <div className="rounded-2xl border border-surface/10 bg-white/60 backdrop-blur-sm p-6 h-full hover:border-brand/30 transition-colors duration-300">
+                  <h3 className="font-heading text-base font-semibold text-surface mb-3">{item.question}</h3>
+                  <p className="text-sm text-surface/60 leading-relaxed">{item.answer}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========== CTA ========== */}
+      <section className="py-24 sm:py-32 bg-surface">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <ScrollReveal direction="scale">
-            <div className="relative overflow-hidden rounded-3xl bg-black px-8 py-20 sm:px-16 sm:py-24 text-center">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-brand/20 rounded-full blur-[100px] animate-pulse-glow" />
-              <div className="absolute bottom-0 left-0 w-60 h-60 bg-brand/10 rounded-full blur-[80px]" />
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand/20 via-surface-light to-surface-light px-8 py-20 sm:px-16 sm:py-28 text-center border border-brand/10">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-brand/15 rounded-full blur-[120px] animate-pulse-glow" />
+              <div className="absolute bottom-0 left-0 w-72 h-72 bg-brand/8 rounded-full blur-[100px]" />
               <div className="relative">
-                <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">{t.cta.title}</h2>
+                <h2 className="font-heading fluid-h2 font-bold text-cream">{t.cta.title}</h2>
                 <p className="mx-auto mt-5 max-w-xl text-lg text-gray-400 leading-relaxed">{t.cta.subtitle}</p>
                 <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Link href="/fr/contact" className="btn-magnetic inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}<svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg></Link>
-                  <a href={`mailto:${t.cta.email}`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.cta.email}</a>
+                  <Link href="/fr/contact" className="btn-magnetic inline-flex items-center rounded-xl bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25">
+                    {t.cta.button}
+                    <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                  </Link>
+                  <Link href="/fr/contact#calendly" className="inline-flex items-center rounded-xl border border-white/10 px-8 py-4 text-base font-semibold text-gray-300 hover:border-brand/40 hover:text-white transition-all">
+                    {t.cta.buttonSecondary}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -1312,21 +1933,35 @@ import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://b2blast.com";
-  const pages = ["", "/services", "/resources", "/about", "/contact", "/blog"];
-  const entries: MetadataRoute.Sitemap = [];
+  const pages = ["", "/services", "/about", "/contact", "/resources", "/blog", "/privacy", "/legal"];
+  const now = new Date().toISOString();
 
-  for (const p of pages) {
-    for (const locale of ["en", "fr"]) {
-      entries.push({
-        url: `${base}/${locale}${p}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: p === "" ? 1 : 0.8,
-        alternates: { languages: { en: `${base}/en${p}`, fr: `${base}/fr${p}` } },
-      });
-    }
-  }
-  return entries;
+  return pages.flatMap((page) => [
+    {
+      url: `${base}/en${page}`,
+      lastModified: now,
+      changeFrequency: page === "" ? "weekly" : "monthly",
+      priority: page === "" ? 1 : page === "/services" ? 0.9 : 0.7,
+      alternates: {
+        languages: {
+          en: `${base}/en${page}`,
+          fr: `${base}/fr${page}`,
+        },
+      },
+    },
+    {
+      url: `${base}/fr${page}`,
+      lastModified: now,
+      changeFrequency: page === "" ? "weekly" : "monthly",
+      priority: page === "" ? 1 : page === "/services" ? 0.9 : 0.7,
+      alternates: {
+        languages: {
+          en: `${base}/en${page}`,
+          fr: `${base}/fr${page}`,
+        },
+      },
+    },
+  ]);
 }
 </file>
 
@@ -1339,53 +1974,52 @@ export default function Footer({ locale }: { locale: Locale }) {
   const t = getContent(locale);
 
   return (
-    <footer className="border-t border-gray-200 bg-white">
+    <footer className="border-t border-cream-dark/60 bg-cream">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row justify-between gap-8">
-          {/* Brand */}
           <div className="space-y-3">
             <Link href={`/${locale}`} className="inline-block">
               <Image src="/images/logo.png" alt="B2BLAST" width={120} height={32} className="h-7 w-auto" />
             </Link>
-            <p className="text-sm text-gray-500 max-w-xs">{t.footer.tagline}</p>
-            {/* Social */}
+            <p className="text-sm text-surface/60 max-w-xs">{t.footer.tagline}</p>
             <div className="flex items-center gap-4 pt-1">
-              <a href={t.footer.social.b2blastLinkedin} target="_blank" rel="noopener noreferrer" aria-label="B2BLAST LinkedIn" className="text-gray-400 hover:text-brand transition-colors">
+              <a href={t.footer.social.b2blastLinkedin} target="_blank" rel="noopener noreferrer" aria-label="B2BLAST LinkedIn" className="text-surface/40 hover:text-brand transition-colors">
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </a>
-              <a href={t.footer.social.thomasLinkedin} target="_blank" rel="noopener noreferrer" className="text-xs text-gray-400 hover:text-brand transition-colors">
+              <a href={t.footer.social.thomasLinkedin} target="_blank" rel="noopener noreferrer" className="text-xs text-surface/40 hover:text-brand transition-colors">
                 Thomas Germain
               </a>
             </div>
           </div>
 
-          {/* Links */}
           <div className="flex gap-12">
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-gray-900">Pages</h3>
+              <h3 className="text-sm font-semibold text-surface">Pages</h3>
               <div className="flex flex-col gap-2">
-                <Link href={`/${locale}/services`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.services}</Link>
-                <Link href={`/${locale}/resources`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.resources}</Link>
-                <Link href={`/${locale}/about`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.about}</Link>
-                <Link href={`/${locale}/blog`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.blog}</Link>
-                <Link href={`/${locale}/contact`} className="text-sm text-gray-500 hover:text-brand transition-colors">{t.footer.links.contact}</Link>
+                <Link href={`/${locale}/services`} className="text-sm text-surface/50 hover:text-brand transition-colors">{t.footer.links.services}</Link>
+                <Link href={`/${locale}/resources`} className="text-sm text-surface/50 hover:text-brand transition-colors">{t.footer.links.resources}</Link>
+                <Link href={`/${locale}/about`} className="text-sm text-surface/50 hover:text-brand transition-colors">{t.footer.links.about}</Link>
+                <Link href={`/${locale}/blog`} className="text-sm text-surface/50 hover:text-brand transition-colors">{t.footer.links.blog}</Link>
+                <Link href={`/${locale}/contact`} className="text-sm text-surface/50 hover:text-brand transition-colors">{t.footer.links.contact}</Link>
               </div>
             </div>
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-gray-900">{locale === "en" ? "Connect" : "Contact"}</h3>
+              <h3 className="text-sm font-semibold text-surface">{locale === "en" ? "Connect" : "Contact"}</h3>
               <div className="flex flex-col gap-2">
-                <a href="mailto:thomas@b2blast.com" className="text-sm text-gray-500 hover:text-brand transition-colors">thomas@b2blast.com</a>
-                <a href={t.footer.social.b2blastLinkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 hover:text-brand transition-colors">LinkedIn B2BLAST</a>
-                <a href={t.footer.social.thomasLinkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 hover:text-brand transition-colors">LinkedIn Thomas</a>
+                <a href="mailto:thomas@b2blast.com" className="text-sm text-surface/50 hover:text-brand transition-colors">thomas@b2blast.com</a>
+                <a href={t.footer.social.b2blastLinkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-surface/50 hover:text-brand transition-colors">LinkedIn B2BLAST</a>
+                <a href={t.footer.social.thomasLinkedin} target="_blank" rel="noopener noreferrer" className="text-sm text-surface/50 hover:text-brand transition-colors">LinkedIn Thomas</a>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-10 pt-6 border-t border-gray-200 flex flex-col sm:flex-row justify-between gap-3">
-          <p className="text-xs text-gray-400">{t.footer.copyright}</p>
-          <Link href={`/${locale}`} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">{t.footer.links.privacy}</Link>
+        <div className="mt-10 pt-6 border-t border-surface/10 flex flex-col sm:flex-row justify-between gap-3">
+          <p className="text-xs text-surface/40">{t.footer.copyright}</p>
+          <div className="flex gap-4">
+            <Link href={`/${locale}/privacy`} className="text-xs text-surface/40 hover:text-surface/60 transition-colors">{t.footer.links.privacy}</Link>
+            <Link href={`/${locale}/legal`} className="text-xs text-surface/40 hover:text-surface/60 transition-colors">{t.footer.links.legal}</Link>
+          </div>
         </div>
       </div>
     </footer>
@@ -1396,130 +2030,87 @@ export default function Footer({ locale }: { locale: Locale }) {
 <file path="components/layout/Header.tsx">
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { getContent, type Locale } from "@/lib/content";
 
 export default function Header({ locale }: { locale: Locale }) {
+  const t = getContent(locale);
+  const alt = locale === "en" ? "fr" : "en";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const t = getContent(locale);
-  const otherLocale = locale === "en" ? "fr" : "en";
-  const otherLabel = locale === "en" ? "FR" : "EN";
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setResourcesOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
-
-  const navLinks = [
-    { href: `/${locale}`, label: t.nav.home },
-    { href: `/${locale}/services`, label: t.nav.services },
-    { href: `/${locale}/about`, label: t.nav.about },
-    { href: `/${locale}/blog`, label: t.nav.blog },
-    { href: `/${locale}/contact`, label: t.nav.contact },
-  ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white backdrop-blur-lg border-b border-gray-200 shadow-sm">
-      <nav className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <header className="fixed top-0 inset-x-0 z-50 bg-cream/95 backdrop-blur-md border-b border-cream-dark/60">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex-shrink-0">
-            <Image src="/images/logo.png" alt="B2BLAST — B2B Paid Ads Agency" width={140} height={36} priority className="h-8 w-auto" />
+          <Link href={`/${locale}`} className="flex items-center gap-2">
+            <Image src="/images/logo.png" alt="B2BLAST" width={120} height={32} priority className="h-8 w-auto" />
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-7">
-            {navLinks.slice(0, 2).map((link) => (
-              <Link key={link.href} href={link.href} className="text-sm font-medium text-gray-600 hover:text-black transition-colors">{link.label}</Link>
-            ))}
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1">
+            <Link href={`/${locale}/services`} className="px-3 py-2 text-sm font-medium text-surface hover:text-brand transition-colors rounded-md hover:bg-brand/5">{t.nav.services}</Link>
 
-            {/* Resources dropdown */}
-            <div ref={dropdownRef} className="relative">
-              <button
-                onClick={() => setResourcesOpen(!resourcesOpen)}
-                className="flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-black transition-colors"
-                aria-expanded={resourcesOpen}
-                aria-haspopup="true"
-              >
+            {/* Resources Dropdown */}
+            <div className="relative" onMouseEnter={() => setResourcesOpen(true)} onMouseLeave={() => setResourcesOpen(false)}>
+              <button className="px-3 py-2 text-sm font-medium text-surface hover:text-brand transition-colors rounded-md hover:bg-brand/5 flex items-center gap-1">
                 {t.nav.resources}
-                <svg className={`h-3.5 w-3.5 transition-transform ${resourcesOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                </svg>
+                <svg className={`h-3.5 w-3.5 transition-transform ${resourcesOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
               </button>
-
               {resourcesOpen && (
-                <div className="absolute top-full left-0 mt-2 w-52 rounded-xl border border-gray-200 bg-white shadow-lg shadow-black/5 py-2">
-                  <Link
-                    href={`/${locale}/resources#courses`}
-                    onClick={() => setResourcesOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition-colors"
-                  >
-                    <svg className="h-4 w-4 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342" /></svg>
-                    {t.nav.resourcesItems.courses}
-                  </Link>
-                  <Link
-                    href={`/${locale}/resources#templates`}
-                    onClick={() => setResourcesOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-black transition-colors"
-                  >
-                    <svg className="h-4 w-4 text-brand" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
-                    {t.nav.resourcesItems.templates}
-                  </Link>
+                <div className="absolute top-full left-0 mt-1 w-48 rounded-xl bg-cream border border-cream-dark/60 shadow-xl shadow-black/5 p-2">
+                  <Link href={`/${locale}/resources`} className="block px-3 py-2 text-sm text-surface hover:text-brand hover:bg-brand/5 rounded-lg transition-colors">{t.nav.resourcesItems.courses}</Link>
+                  <Link href={`/${locale}/resources`} className="block px-3 py-2 text-sm text-surface hover:text-brand hover:bg-brand/5 rounded-lg transition-colors">{t.nav.resourcesItems.templates}</Link>
                 </div>
               )}
             </div>
 
-            {navLinks.slice(2).map((link) => (
-              <Link key={link.href} href={link.href} className="text-sm font-medium text-gray-600 hover:text-black transition-colors">{link.label}</Link>
-            ))}
-          </div>
+            <Link href={`/${locale}/about`} className="px-3 py-2 text-sm font-medium text-surface hover:text-brand transition-colors rounded-md hover:bg-brand/5">{t.nav.about}</Link>
+            <Link href={`/${locale}/blog`} className="px-3 py-2 text-sm font-medium text-surface hover:text-brand transition-colors rounded-md hover:bg-brand/5">{t.nav.blog}</Link>
+            <Link href={`/${locale}/contact`} className="px-3 py-2 text-sm font-medium text-surface hover:text-brand transition-colors rounded-md hover:bg-brand/5">{t.nav.contact}</Link>
+          </nav>
 
           {/* Right side */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href={`/${otherLocale}`} className="text-sm font-medium text-gray-500 hover:text-brand transition-colors px-2 py-1 rounded border border-gray-300 hover:border-brand">{otherLabel}</Link>
-            <Link href={`/${locale}/contact`} className="btn-magnetic inline-flex items-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white">{t.nav.cta}</Link>
-          </div>
+          <div className="flex items-center gap-3">
+            <Link href={`/${alt}`} className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-surface/60 hover:text-brand border border-surface/10 hover:border-brand/30 rounded-md transition-all">
+              {alt.toUpperCase()}
+            </Link>
+            <Link href={`/${locale}/contact`} className="hidden md:inline-flex btn-magnetic items-center rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand/20">
+              {t.nav.cta}
+            </Link>
 
-          {/* Mobile menu button */}
-          <button type="button" className="md:hidden p-2 text-gray-600" onClick={() => setMobileOpen(!mobileOpen)} aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"}>
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-              {mobileOpen ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />}
-            </svg>
-          </button>
+            {/* Mobile burger */}
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 text-surface" aria-label="Menu">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                {mobileOpen
+                  ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  : <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+                }
+              </svg>
+            </button>
+          </div>
         </div>
+      </div>
 
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4 space-y-1">
-            {navLinks.slice(0, 2).map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-lg">{link.label}</Link>
-            ))}
-            {/* Resources sub-items mobile */}
-            <div className="px-3 py-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1">{t.nav.resources}</p>
-              <Link href={`/${locale}/resources#courses`} onClick={() => setMobileOpen(false)} className="block pl-3 py-1.5 text-base font-medium text-gray-700 hover:text-brand">{t.nav.resourcesItems.courses}</Link>
-              <Link href={`/${locale}/resources#templates`} onClick={() => setMobileOpen(false)} className="block pl-3 py-1.5 text-base font-medium text-gray-700 hover:text-brand">{t.nav.resourcesItems.templates}</Link>
-            </div>
-            {navLinks.slice(2).map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-lg">{link.label}</Link>
-            ))}
-            <div className="flex items-center gap-3 px-3 pt-3 border-t border-gray-200 mt-3">
-              <Link href={`/${otherLocale}`} className="text-sm font-medium text-gray-500 hover:text-brand px-3 py-2 border border-gray-300 rounded-lg">{otherLabel}</Link>
-              <Link href={`/${locale}/contact`} onClick={() => setMobileOpen(false)} className="flex-1 text-center rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white">{t.nav.cta}</Link>
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="md:hidden bg-cream border-t border-cream-dark/60">
+          <div className="px-4 py-4 space-y-1">
+            <Link href={`/${locale}/services`} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-surface hover:text-brand rounded-lg hover:bg-brand/5">{t.nav.services}</Link>
+            <Link href={`/${locale}/resources`} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-surface hover:text-brand rounded-lg hover:bg-brand/5">{t.nav.resources}</Link>
+            <Link href={`/${locale}/about`} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-surface hover:text-brand rounded-lg hover:bg-brand/5">{t.nav.about}</Link>
+            <Link href={`/${locale}/blog`} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-surface hover:text-brand rounded-lg hover:bg-brand/5">{t.nav.blog}</Link>
+            <Link href={`/${locale}/contact`} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-surface hover:text-brand rounded-lg hover:bg-brand/5">{t.nav.contact}</Link>
+            <div className="pt-3 flex gap-3">
+              <Link href={`/${alt}`} className="flex-1 text-center px-3 py-2.5 text-xs font-semibold uppercase text-surface/60 border border-surface/10 rounded-lg">{alt.toUpperCase()}</Link>
+              <Link href={`/${locale}/contact`} onClick={() => setMobileOpen(false)} className="flex-1 text-center px-3 py-2.5 text-sm font-semibold bg-brand text-white rounded-lg">{t.nav.cta}</Link>
             </div>
           </div>
-        )}
-      </nav>
+        </div>
+      )}
     </header>
   );
 }
@@ -1545,12 +2136,12 @@ export default function AnimatedStat({ value, label }: AnimatedStatProps) {
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
-      className="h-full rounded-2xl bg-black border border-white/10 p-6 sm:p-8 text-center group hover:border-brand/50 hover:bg-brand/5 transition-all duration-500"
+      className="h-full rounded-2xl bg-surface-light border border-white/[0.06] p-6 sm:p-8 text-center group hover:border-brand/40 transition-all duration-500"
     >
-      <p className="font-heading text-3xl sm:text-4xl font-bold text-brand tabular-nums">
+      <p className="font-heading stat-xxl text-gradient-brand tabular-nums">
         {prefix}{count}{suffix}
       </p>
-      <p className="mt-2 text-sm text-gray-500 group-hover:text-gray-400 transition-colors">
+      <p className="mt-3 text-sm text-gray-500 group-hover:text-gray-400 transition-colors">
         {label}
       </p>
     </div>
@@ -1659,6 +2250,8 @@ export default function TiltCard({
 </file>
 
 <file path="components/StructuredData.tsx">
+import { getContent, type Locale } from "@/lib/content";
+
 export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
@@ -1672,7 +2265,14 @@ export function OrganizationSchema() {
       "@type": "Person",
       name: "Thomas Germain",
       jobTitle: "Founder & B2B Ads Expert",
+      url: "https://b2blast.com/en/about",
+      sameAs: ["https://www.linkedin.com/in/thomasgermain5/"],
       knowsLanguage: ["French", "English"],
+      alumniOf: [
+        { "@type": "Organization", name: "LinkedIn" },
+        { "@type": "Organization", name: "Google" },
+        { "@type": "Organization", name: "Pinterest" },
+      ],
     },
     address: {
       "@type": "PostalAddress",
@@ -1692,14 +2292,98 @@ export function OrganizationSchema() {
       "Reddit Ads",
       "B2B Paid Advertising",
       "Bilingual Ad Campaign Management",
+      "International Market Expansion",
     ],
     knowsLanguage: ["French", "English"],
+    priceRange: "€2,000–€8,000/month",
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "Sales",
       email: "thomas@b2blast.com",
       availableLanguage: ["French", "English"],
     },
+    sameAs: [
+      "https://www.linkedin.com/company/b2blast1",
+    ],
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function FAQSchema({ locale }: { locale: Locale }) {
+  const t = getContent(locale);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: t.faq.items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function ServicesFAQSchema({ locale }: { locale: Locale }) {
+  const t = getContent(locale);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: t.services.faq.items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+export function ServicesSchema({ locale }: { locale: Locale }) {
+  const t = getContent(locale);
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "B2B Paid Advertising Management",
+    provider: {
+      "@type": "ProfessionalService",
+      name: "B2BLAST",
+      url: "https://b2blast.com",
+    },
+    areaServed: ["France", "United Kingdom", "United States", "Ireland"],
+    availableChannel: {
+      "@type": "ServiceChannel",
+      serviceUrl: `https://b2blast.com/${locale}/contact`,
+    },
+    offers: t.services.packages.map((pkg) => ({
+      "@type": "Offer",
+      name: pkg.name,
+      price: pkg.price.replace("€", ""),
+      priceCurrency: "EUR",
+      description: pkg.features.join(". "),
+    })),
   };
 
   return (
@@ -1727,11 +2411,11 @@ export const content = {
       cta: "Get Your Growth Plan",
     },
     hero: {
-      title: "Paid Ads for B2B SaaS/SMB Expanding Internationally",
+      title: "Paid Ads for B2B SaaS Expanding Internationally",
       subtitle: "Your ads work in your home market. But they fail abroad. Wrong tone, wrong targeting, wrong cultural signals — money wasted.",
       description: "Native French ↔ English expertise. LinkedIn, Google, Microsoft & Reddit Ads.",
       cta: "Get Your Growth Plan",
-      ctaSecondary: "See services",
+      ctaSecondary: "Book a call",
     },
     trust: {
       label: "Previous experience at",
@@ -1761,23 +2445,85 @@ export const content = {
         { value: "2", label: "native languages" },
       ],
     },
+    process: {
+      title: "How we work together",
+      subtitle: "A clear, structured process from day one. No surprises.",
+      steps: [
+        { step: "1", title: "Discovery call", description: "30-minute free call. I audit your current setup, understand your ICP, and identify quick wins.", duration: "Day 0" },
+        { step: "2", title: "Strategy & setup", description: "Campaign architecture, tracking setup (GTM, GA4, CAPI), audience building, and bilingual ad copy creation.", duration: "Week 1-2" },
+        { step: "3", title: "Launch & optimize", description: "Campaigns go live. Daily monitoring, bid adjustments, and A/B testing across both markets.", duration: "Week 3+" },
+        { step: "4", title: "Report & scale", description: "Transparent reporting tied to your pipeline. We double down on what works and cut what doesn't.", duration: "Ongoing" },
+      ],
+    },
+    faq: {
+      title: "Frequently asked questions",
+      items: [
+        { question: "Who is B2BLAST for?", answer: "B2BLAST works with B2B SaaS companies and SMBs expanding from France to UK/US markets, or international companies entering the French market. If you sell to businesses and need bilingual paid ads expertise, this is for you." },
+        { question: "How is this different from a regular ads agency?", answer: "Most agencies assign junior account managers who follow playbooks. I'm a solo operator, ex-LinkedIn and ex-Google, who personally manages every campaign. You get senior-level expertise with native bilingual ad copy — not a translated version." },
+        { question: "What ad budget do I need to get started?", answer: "A minimum of €5,000/month in ad spend is recommended to generate meaningful B2B results across one or two platforms. Below that threshold, the data volume is too low to optimize effectively." },
+        { question: "How quickly can I expect results?", answer: "Most B2B campaigns need 4-6 weeks to gather enough data for meaningful optimization. You'll see initial traffic and leads within the first 2 weeks, but real pipeline impact typically shows by month 2-3." },
+        { question: "Do you offer contracts or is it month-to-month?", answer: "I recommend a 3-month initial commitment to allow proper testing and optimization. After that, engagements are month-to-month with 30 days notice. No long-term lock-in." },
+        { question: "What do you need from me to get started?", answer: "Access to your ad accounts (or I create them), your CRM/pipeline data for conversion tracking, brand guidelines, and 30 minutes per week for alignment. I handle everything else." },
+        { question: "Do you write the ad copy yourself?", answer: "Yes, all ad copy is written natively in both French and English by me — not translated, not AI-generated. Cultural adaptation is a core part of the service." },
+        { question: "Can I see examples of your work?", answer: "I can walk you through anonymized campaign structures, targeting strategies, and reporting frameworks during our discovery call. Due to NDAs, I don't publish client-specific case studies publicly." },
+      ],
+    },
     services: {
       title: "Services",
       subtitle: "B2B paid ads management, fully bilingual.",
       platforms: [
-        { name: "LinkedIn Ads", description: "Core B2B expertise. Reach decision-makers directly.", icon: "linkedin" },
-        { name: "Google Ads", description: "Capture high-intent B2B search demand.", icon: "google" },
-        { name: "Microsoft Ads", description: "Access the overlooked B2B audience on Bing.", icon: "microsoft" },
-        { name: "Reddit Ads", description: "Target tech communities and developers.", icon: "reddit" },
+        { name: "LinkedIn Ads", description: "ABM, Lead Gen Forms, Thought Leader Ads. Reach B2B decision-makers directly.", icon: "linkedin" },
+        { name: "Google Ads", description: "Search, Performance Max, Demand Gen. Capture high-intent B2B demand.", icon: "google" },
+        { name: "Microsoft Ads", description: "Bing Search & Audience. The overlooked B2B channel with lower CPCs.", icon: "microsoft" },
+        { name: "Reddit Ads", description: "Community targeting for dev tools, SaaS, and technical audiences.", icon: "reddit" },
       ],
       packages: [
-        { name: "Launch", price: "€2-3K", period: "/month", features: ["1-2 platforms", "€5-8K ad budget management", "Monthly reporting", "Continuous optimization"], cta: "Get started", popular: false },
-        { name: "Growth", price: "€3-5K", period: "/month", features: ["2-3 platforms", "€8-15K ad budget management", "Bi-weekly reporting", "Active A/B testing", "Full strategy included"], cta: "Get started", popular: true },
-        { name: "Scale", price: "€5-8K", period: "/month", features: ["All platforms", "€15K+ ad budget management", "Weekly reporting", "Aggressive optimization", "Complete strategy & creative direction"], cta: "Get started", popular: false },
+        {
+          name: "Launch",
+          price: "€2-3K",
+          period: "/month",
+          features: ["1-2 platforms", "€5-8K ad budget management", "Monthly reporting", "Continuous optimization"],
+          outcome: "First qualified leads within 60 days.",
+          cta: "Get started",
+          popular: false,
+        },
+        {
+          name: "Growth",
+          price: "€3-5K",
+          period: "/month",
+          features: ["2-3 platforms", "€8-15K ad budget management", "Bi-weekly reporting", "Active A/B testing", "Full strategy included"],
+          outcome: "Predictable pipeline within 90 days.",
+          cta: "Get started",
+          popular: true,
+        },
+        {
+          name: "Scale",
+          price: "€5-8K",
+          period: "/month",
+          features: ["All platforms", "€15K+ ad budget management", "Weekly reporting", "Aggressive optimization", "Complete strategy & creative direction"],
+          outcome: "Multi-market acquisition engine at full speed.",
+          cta: "Get started",
+          popular: false,
+        },
       ],
       includes: {
         title: "Every package includes",
         items: ["Full campaign strategy", "Technical setup (GTM, GA4, conversion tracking)", "Daily budget management", "Ongoing bid & audience optimization", "Professional reporting", "Reactive Slack/email communication"],
+      },
+      clientNeeds: {
+        title: "What we need from you",
+        items: ["Ad account access (or we create them)", "CRM access for conversion tracking", "Brand guidelines & assets", "30 minutes/week for alignment calls"],
+      },
+      faq: {
+        title: "Services FAQ",
+        items: [
+          { question: "Which platform should I start with?", answer: "For most B2B SaaS, LinkedIn is the highest-intent starting point. If you have existing search demand, Google Ads is a strong complement. I'll recommend the right mix based on your ICP and budget." },
+          { question: "Can you manage campaigns in both languages simultaneously?", answer: "Yes, that's the core value. I build separate campaign structures for each market with native ad copy, localized landing page recommendations, and market-specific bidding strategies." },
+          { question: "What reporting do I get?", answer: "You receive structured reports showing spend, leads, cost per lead, pipeline contribution, and recommendations. Reports are tied to your actual pipeline data, not just vanity metrics." },
+          { question: "Do you handle landing pages too?", answer: "I provide landing page audits and conversion optimization recommendations as part of every engagement. For full landing page builds, I work with trusted partners." },
+          { question: "What happens if campaigns underperform?", answer: "Underperformance triggers a diagnostic review within 48 hours. I'll identify the root cause (targeting, copy, landing page, or market fit) and present a corrective plan. Transparency is non-negotiable." },
+          { question: "Is there a setup fee?", answer: "No setup fee. The first two weeks of each engagement include strategy, account audit, tracking setup, and campaign buildout — all included in your monthly retainer." },
+        ],
       },
     },
     about: {
@@ -1796,21 +2542,30 @@ export const content = {
       title: "Ready to expand internationally?",
       subtitle: "Book a free 30-minute strategy call. I'll review your current ads and show you exactly where you're leaving money on the table.",
       button: "Get Your Growth Plan",
+      buttonSecondary: "Book a call",
       email: "thomas@b2blast.com",
     },
     contact: {
-      title: "Get in touch",
-      subtitle: "Fill out the form below or email me directly. I'll get back to you within 24 hours.",
-      form: { name: "Full name", email: "Work email", company: "Company name", message: "Tell me about your project and goals", submit: "Get Your Growth Plan", success: "Message sent! I'll get back to you within 24 hours." },
+      title: "Let's talk growth",
+      subtitle: "Choose what works for you: fill out the form, book a call directly, or send me an email. I respond within 24 hours.",
+      calendly: "Or book a call directly →",
+      form: { name: "Full name", email: "Work email", company: "Company name", budget: "Monthly ad budget", budgetOptions: ["< €5K", "€5-10K", "€10-15K", "€15K+", "Not sure yet"], message: "Tell me about your project and goals", submit: "Get Your Growth Plan", success: "Message sent! I'll get back to you within 24 hours." },
     },
     footer: {
       tagline: "B2B paid ads, natively bilingual.",
       copyright: `© ${new Date().getFullYear()} B2BLAST. All rights reserved.`,
-      links: { services: "Services", resources: "Resources", about: "About", blog: "Blog", contact: "Contact", privacy: "Privacy Policy" },
+      links: { services: "Services", resources: "Resources", about: "About", blog: "Blog", contact: "Contact", privacy: "Privacy", legal: "Legal" },
       social: {
         b2blastLinkedin: "https://www.linkedin.com/company/b2blast1",
         thomasLinkedin: "https://www.linkedin.com/in/thomasgermain5/",
       },
+    },
+    privacy: {
+      title: "Privacy Policy",
+      lastUpdated: "Last updated: February 2026",
+    },
+    legal: {
+      title: "Legal Notice",
     },
   },
   fr: {
@@ -1825,11 +2580,11 @@ export const content = {
       cta: "Votre Plan de Croissance",
     },
     hero: {
-      title: "Paid Ads pour SaaS/PME B2B à l'International",
+      title: "Paid Ads pour SaaS B2B à l'International",
       subtitle: "Vos ads marchent sur votre marché. Mais elles échouent à l'étranger. Mauvais ton, mauvais ciblage, mauvais signaux culturels — argent gaspillé.",
       description: "Expertise native Français ↔ Anglais. LinkedIn, Google, Microsoft & Reddit Ads.",
       cta: "Obtenez votre plan de croissance",
-      ctaSecondary: "Voir les services",
+      ctaSecondary: "Réserver un appel",
     },
     trust: {
       label: "Expérience précédente chez",
@@ -1859,23 +2614,85 @@ export const content = {
         { value: "2", label: "langues natives" },
       ],
     },
+    process: {
+      title: "Comment on travaille ensemble",
+      subtitle: "Un process clair et structuré dès le premier jour. Pas de surprises.",
+      steps: [
+        { step: "1", title: "Appel découverte", description: "30 minutes, gratuit. J'audite votre setup actuel, comprends votre ICP, et identifie les quick wins.", duration: "Jour 0" },
+        { step: "2", title: "Stratégie & setup", description: "Architecture campagnes, tracking (GTM, GA4, CAPI), construction audiences, et création ad copy bilingue.", duration: "Semaine 1-2" },
+        { step: "3", title: "Lancement & optimisation", description: "Les campagnes sont en ligne. Monitoring quotidien, ajustements enchères, et A/B testing sur les deux marchés.", duration: "Semaine 3+" },
+        { step: "4", title: "Reporting & scale", description: "Reporting transparent lié à votre pipeline. On double ce qui marche et coupe ce qui ne marche pas.", duration: "En continu" },
+      ],
+    },
+    faq: {
+      title: "Questions fréquentes",
+      items: [
+        { question: "À qui s'adresse B2BLAST ?", answer: "B2BLAST accompagne les entreprises B2B SaaS et PME qui s'expandent de la France vers les marchés UK/US, ou les entreprises internationales qui entrent sur le marché français. Si vous vendez en B2B et avez besoin d'une expertise paid ads bilingue, c'est pour vous." },
+        { question: "En quoi c'est différent d'une agence classique ?", answer: "La plupart des agences assignent des account managers juniors qui suivent des playbooks. Je suis un opérateur solo, ex-LinkedIn et ex-Google, qui gère personnellement chaque campagne. Vous bénéficiez d'une expertise senior avec un ad copy bilingue natif — pas une version traduite." },
+        { question: "Quel budget pub est nécessaire pour commencer ?", answer: "Un minimum de €5 000/mois en dépenses publicitaires est recommandé pour générer des résultats B2B significatifs sur une ou deux plateformes. En dessous de ce seuil, le volume de données est trop faible pour optimiser efficacement." },
+        { question: "En combien de temps puis-je voir des résultats ?", answer: "La plupart des campagnes B2B nécessitent 4-6 semaines pour collecter suffisamment de données. Vous verrez du trafic et des leads initiaux dans les 2 premières semaines, mais l'impact réel sur le pipeline se manifeste généralement au mois 2-3." },
+        { question: "Proposez-vous des contrats ou c'est au mois ?", answer: "Je recommande un engagement initial de 3 mois pour permettre un testing et une optimisation corrects. Après cela, les engagements sont au mois avec 30 jours de préavis. Pas de lock-in." },
+        { question: "De quoi avez-vous besoin de ma part pour démarrer ?", answer: "Accès à vos comptes publicitaires (ou je les crée), vos données CRM/pipeline pour le suivi conversions, vos guidelines de marque, et 30 minutes par semaine pour les calls d'alignement. Je gère tout le reste." },
+        { question: "Écrivez-vous les ads vous-même ?", answer: "Oui, tout le copy publicitaire est rédigé nativement en français et en anglais par moi — pas traduit, pas généré par IA. L'adaptation culturelle est au cœur du service." },
+        { question: "Puis-je voir des exemples de votre travail ?", answer: "Je peux vous présenter des structures de campagnes anonymisées, des stratégies de ciblage et des frameworks de reporting lors de notre appel découverte. Pour des raisons de confidentialité, je ne publie pas de case studies clients." },
+      ],
+    },
     services: {
       title: "Services",
       subtitle: "Gestion paid ads B2B, entièrement bilingue.",
       platforms: [
-        { name: "LinkedIn Ads", description: "Expertise B2B cœur. Atteignez les décideurs directement.", icon: "linkedin" },
-        { name: "Google Ads", description: "Capturez la demande B2B à haute intention de recherche.", icon: "google" },
-        { name: "Microsoft Ads", description: "Accédez à l'audience B2B souvent négligée de Bing.", icon: "microsoft" },
-        { name: "Reddit Ads", description: "Ciblez les communautés tech et développeurs.", icon: "reddit" },
+        { name: "LinkedIn Ads", description: "ABM, Lead Gen Forms, Thought Leader Ads. Atteignez les décideurs B2B directement.", icon: "linkedin" },
+        { name: "Google Ads", description: "Search, Performance Max, Demand Gen. Capturez la demande B2B à haute intention.", icon: "google" },
+        { name: "Microsoft Ads", description: "Bing Search & Audience. Le canal B2B sous-exploité avec des CPCs plus bas.", icon: "microsoft" },
+        { name: "Reddit Ads", description: "Ciblage communautaire pour dev tools, SaaS et audiences techniques.", icon: "reddit" },
       ],
       packages: [
-        { name: "Launch", price: "€2-3K", period: "/mois", features: ["1-2 plateformes", "Gestion budget ads €5-8K", "Reporting mensuel", "Optimisation continue"], cta: "Démarrer", popular: false },
-        { name: "Growth", price: "€3-5K", period: "/mois", features: ["2-3 plateformes", "Gestion budget ads €8-15K", "Reporting bi-mensuel", "A/B testing actif", "Stratégie complète incluse"], cta: "Démarrer", popular: true },
-        { name: "Scale", price: "€5-8K", period: "/mois", features: ["Toutes les plateformes", "Gestion budget ads €15K+", "Reporting hebdomadaire", "Optimisation aggressive", "Stratégie complète & direction créative"], cta: "Démarrer", popular: false },
+        {
+          name: "Launch",
+          price: "€2-3K",
+          period: "/mois",
+          features: ["1-2 plateformes", "Gestion budget ads €5-8K", "Reporting mensuel", "Optimisation continue"],
+          outcome: "Premiers leads qualifiés en 60 jours.",
+          cta: "Démarrer",
+          popular: false,
+        },
+        {
+          name: "Growth",
+          price: "€3-5K",
+          period: "/mois",
+          features: ["2-3 plateformes", "Gestion budget ads €8-15K", "Reporting bi-mensuel", "A/B testing actif", "Stratégie complète incluse"],
+          outcome: "Pipeline prévisible en 90 jours.",
+          cta: "Démarrer",
+          popular: true,
+        },
+        {
+          name: "Scale",
+          price: "€5-8K",
+          period: "/mois",
+          features: ["Toutes les plateformes", "Gestion budget ads €15K+", "Reporting hebdomadaire", "Optimisation aggressive", "Stratégie complète & direction créative"],
+          outcome: "Machine d'acquisition multi-marchés à plein régime.",
+          cta: "Démarrer",
+          popular: false,
+        },
       ],
       includes: {
         title: "Inclus dans chaque package",
         items: ["Stratégie campagnes complète", "Setup technique (GTM, GA4, suivi conversions)", "Gestion budgets quotidienne", "Optimisation continue bids & audiences", "Reporting professionnel", "Communication réactive Slack/email"],
+      },
+      clientNeeds: {
+        title: "Ce dont j'ai besoin de votre part",
+        items: ["Accès comptes publicitaires (ou je les crée)", "Accès CRM pour le suivi conversions", "Guidelines de marque & assets", "30 minutes/semaine pour les calls d'alignement"],
+      },
+      faq: {
+        title: "FAQ Services",
+        items: [
+          { question: "Par quelle plateforme commencer ?", answer: "Pour la plupart des SaaS B2B, LinkedIn est le point de départ le plus qualifié. Si vous avez de la demande search existante, Google Ads est un excellent complément. Je recommande le bon mix selon votre ICP et budget." },
+          { question: "Pouvez-vous gérer des campagnes dans les deux langues simultanément ?", answer: "Oui, c'est la valeur cœur. Je construis des structures de campagnes séparées pour chaque marché avec un ad copy natif, des recommandations landing pages localisées et des stratégies d'enchères spécifiques à chaque marché." },
+          { question: "Quel reporting est-ce que je reçois ?", answer: "Vous recevez des reports structurés montrant les dépenses, leads, coût par lead, contribution pipeline et recommandations. Les reports sont liés à vos données pipeline réelles, pas juste des vanity metrics." },
+          { question: "Gérez-vous aussi les landing pages ?", answer: "Je fournis des audits landing pages et des recommandations d'optimisation conversion dans chaque engagement. Pour les builds complets de landing pages, je travaille avec des partenaires de confiance." },
+          { question: "Que se passe-t-il si les campagnes sous-performent ?", answer: "La sous-performance déclenche une revue diagnostic sous 48h. J'identifie la cause racine (ciblage, copy, landing page ou product-market fit) et présente un plan correctif. La transparence est non-négociable." },
+          { question: "Y a-t-il des frais de setup ?", answer: "Pas de frais de setup. Les deux premières semaines de chaque engagement incluent stratégie, audit compte, setup tracking et construction campagnes — tout est inclus dans votre retainer mensuel." },
+        ],
       },
     },
     about: {
@@ -1894,21 +2711,30 @@ export const content = {
       title: "Prêt à vous développer à l'international ?",
       subtitle: "Réservez un appel stratégie gratuit de 30 minutes. J'analyserai vos ads actuelles et vous montrerai exactement où vous perdez de l'argent.",
       button: "Obtenez votre plan de croissance",
+      buttonSecondary: "Réserver un appel",
       email: "thomas@b2blast.com",
     },
     contact: {
-      title: "Contactez-moi",
-      subtitle: "Remplissez le formulaire ci-dessous ou envoyez-moi un email directement. Je vous réponds sous 24 heures.",
-      form: { name: "Nom complet", email: "Email professionnel", company: "Nom de l'entreprise", message: "Parlez-moi de votre projet et vos objectifs", submit: "Obtenez votre plan de croissance", success: "Message envoyé ! Je vous réponds sous 24 heures." },
+      title: "Parlons croissance",
+      subtitle: "Choisissez ce qui vous convient : remplissez le formulaire, réservez un call, ou envoyez-moi un email. Je réponds sous 24h.",
+      calendly: "Ou réservez un call directement →",
+      form: { name: "Nom complet", email: "Email professionnel", company: "Nom de l'entreprise", budget: "Budget pub mensuel", budgetOptions: ["< €5K", "€5-10K", "€10-15K", "€15K+", "Pas encore défini"], message: "Parlez-moi de votre projet et vos objectifs", submit: "Obtenez votre plan de croissance", success: "Message envoyé ! Je vous réponds sous 24 heures." },
     },
     footer: {
       tagline: "Paid ads B2B, nativement bilingue.",
       copyright: `© ${new Date().getFullYear()} B2BLAST. Tous droits réservés.`,
-      links: { services: "Services", resources: "Ressources", about: "À propos", blog: "Blog", contact: "Contact", privacy: "Politique de confidentialité" },
+      links: { services: "Services", resources: "Ressources", about: "À propos", blog: "Blog", contact: "Contact", privacy: "Confidentialité", legal: "Mentions légales" },
       social: {
         b2blastLinkedin: "https://www.linkedin.com/company/b2blast1",
         thomasLinkedin: "https://www.linkedin.com/in/thomasgermain5/",
       },
+    },
+    privacy: {
+      title: "Politique de confidentialité",
+      lastUpdated: "Dernière mise à jour : février 2026",
+    },
+    legal: {
+      title: "Mentions légales",
     },
   },
 } as const;
@@ -2020,70 +2846,6 @@ export function useScrollReveal<T extends HTMLElement>(
 }
 </file>
 
-<file path="public/file.svg">
-<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
-</file>
-
-<file path="public/globe.svg">
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
-</file>
-
-<file path="public/next.svg">
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
-</file>
-
-<file path="public/vercel.svg">
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
-</file>
-
-<file path="public/window.svg">
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
-</file>
-
-<file path=".gitignore">
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-</file>
-
 <file path="eslint.config.mjs">
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
@@ -2103,22 +2865,6 @@ const eslintConfig = defineConfig([
 ]);
 
 export default eslintConfig;
-</file>
-
-<file path="middleware.ts">
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-
-export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === "/") {
-    const lang = request.headers.get("accept-language") || "";
-    const locale = lang.toLowerCase().includes("fr") ? "fr" : "en";
-    return NextResponse.redirect(new URL(`/${locale}`, request.url));
-  }
-  return NextResponse.next();
-}
-
-export const config = { matcher: "/" };
 </file>
 
 <file path="postcss.config.mjs">
@@ -2211,14 +2957,20 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 @import "tailwindcss";
 
 @theme {
-  /* === STRICT PALETTE: Violet / Noir / Blanc === */
-  --color-brand: #9e01e6;
-  --color-brand-light: #b44de8;
-  --color-brand-dark: #7a01b3;
-  --color-brand-glow: rgba(158, 1, 230, 0.25);
+  /* === V6 PALETTE: Charbon / Orange Brûlé / Crème === */
+  --color-brand: #E8630A;
+  --color-brand-light: #F28C38;
+  --color-brand-dark: #C44F00;
+  --color-brand-glow: rgba(232, 99, 10, 0.25);
 
-  --font-heading: "Sora", sans-serif;
-  --font-body: "DM Sans", sans-serif;
+  --color-surface: #1A1A1A;
+  --color-surface-light: #242424;
+  --color-surface-lighter: #2E2E2E;
+  --color-cream: #F5F0EB;
+  --color-cream-dark: #E8E0D8;
+
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
 }
 
 /* Smooth scrolling */
@@ -2232,7 +2984,7 @@ html {
   outline-offset: 2px;
 }
 
-/* Selection color */
+/* Selection */
 ::selection {
   background-color: var(--color-brand);
   color: white;
@@ -2254,35 +3006,56 @@ html {
 }
 
 /* ============================================
-   SCROLL REVEAL ANIMATIONS
+   FLUID TYPOGRAPHY
+   ============================================ */
+
+.fluid-h1 {
+  font-size: clamp(2.25rem, 1rem + 4vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.fluid-h2 {
+  font-size: clamp(1.75rem, 0.8rem + 3vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.fluid-h3 {
+  font-size: clamp(1.25rem, 0.6rem + 1.5vw, 1.5rem);
+  line-height: 1.2;
+}
+
+/* ============================================
+   SCROLL REVEAL — UPGRADED EASING
    ============================================ */
 
 .scroll-reveal-up {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(50px);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-left {
   opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(-50px);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-right {
   opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(50px);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-scale {
   opacity: 0;
-  transform: scale(0.92);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.9);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-up.revealed,
@@ -2294,13 +3067,13 @@ html {
 }
 
 /* ============================================
-   HERO ANIMATIONS
+   HERO ANIMATIONS — STAGGERED ENTRANCE
    ============================================ */
 
-@keyframes hero-fade-in {
+@keyframes hero-slide-up {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -2308,17 +3081,22 @@ html {
   }
 }
 
+@keyframes hero-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .hero-animate {
   opacity: 0;
-  animation: hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: hero-slide-up 0.9s cubic-bezier(0.3, 0.8, 0.3, 1.1) forwards;
 }
 
 .hero-delay-1 { animation-delay: 0.1s; }
-.hero-delay-2 { animation-delay: 0.25s; }
-.hero-delay-3 { animation-delay: 0.4s; }
-.hero-delay-4 { animation-delay: 0.55s; }
-.hero-delay-5 { animation-delay: 0.7s; }
-.hero-delay-6 { animation-delay: 0.85s; }
+.hero-delay-2 { animation-delay: 0.3s; }
+.hero-delay-3 { animation-delay: 0.5s; }
+.hero-delay-4 { animation-delay: 0.65s; }
+.hero-delay-5 { animation-delay: 0.8s; }
+.hero-delay-6 { animation-delay: 1s; }
 
 /* ============================================
    AMBIENT ANIMATIONS
@@ -2326,7 +3104,7 @@ html {
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-15px); }
 }
 
 .animate-float-slow {
@@ -2334,40 +3112,51 @@ html {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.05); }
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
+  animation: pulse-glow 5s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
 }
 
 /* ============================================
-   GRAIN TEXTURE
+   GRAIN TEXTURE (SVG Noise — premium)
    ============================================ */
 
 .grain::before {
   content: "";
   position: fixed;
   inset: 0;
-  opacity: 0.02;
+  opacity: 0.03;
   pointer-events: none;
   z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.06'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ============================================
-   MAGNETIC BUTTON
+   MAGNETIC BUTTON — overshoot easing
    ============================================ */
 
 .btn-magnetic {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    box-shadow 0.4s ease;
 }
 
 .btn-magnetic:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 40px -10px var(--color-brand-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px -8px var(--color-brand-glow);
 }
 
 .btn-magnetic:active {
@@ -2375,18 +3164,75 @@ html {
 }
 
 /* ============================================
-   CARD HOVER
+   CARD HOVER — glow border + lift
    ============================================ */
 
 .card-hover {
-  transition: border-color 0.3s ease, box-shadow 0.4s ease, transform 0.3s ease;
+  transition: border-color 0.4s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .card-hover:hover {
-  border-color: rgba(158, 1, 230, 0.3);
-  box-shadow: 0 0 0 1px rgba(158, 1, 230, 0.1),
-    0 8px 40px -12px rgba(158, 1, 230, 0.15);
-  transform: translateY(-2px);
+  border-color: rgba(232, 99, 10, 0.35);
+  box-shadow: 0 0 0 1px rgba(232, 99, 10, 0.12),
+    0 10px 50px -12px rgba(232, 99, 10, 0.2);
+  transform: translateY(-3px);
+}
+
+/* ============================================
+   STACKING CARDS (position: sticky)
+   ============================================ */
+
+.stacking-card {
+  position: sticky;
+  top: 5rem;
+}
+
+/* ============================================
+   BENTO GRID
+   ============================================ */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   ORANGE GRADIENT TEXT
+   ============================================ */
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #E8630A 0%, #F28C38 50%, #E8630A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   DIVIDER LINE — animated
+   ============================================ */
+
+.divider-animated {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-brand), transparent);
+  opacity: 0.3;
+}
+
+/* ============================================
+   STAT NUMBER — large display
+   ============================================ */
+
+.stat-xxl {
+  font-size: clamp(3rem, 2rem + 5vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 900;
 }
 </file>
 
@@ -2398,6 +3244,10 @@ export const metadata: Metadata = {
   title: "B2BLAST - B2B Paid Ads French ↔ English Markets",
   description: "Native bilingual B2B paid ads expert. LinkedIn, Google, Microsoft Ads.",
   metadataBase: new URL("https://b2blast.com"),
+  icons: {
+    icon: "/images/favicon.png",
+    apple: "/images/favicon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -2426,6 +3276,8 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
         ],
       },
     ];

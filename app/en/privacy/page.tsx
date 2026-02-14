@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Privacy Policy", description: "B2BLA
 
 export default function PrivacyEN() {
   return (
-    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-black">
+    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-surface">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">Privacy Policy</h1>
         <p className="text-sm text-gray-500 mb-12">Last updated: February 2026</p>

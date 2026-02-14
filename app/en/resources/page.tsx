@@ -48,7 +48,7 @@ export default function ResourcesEN() {
   }
 
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-surface">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-2xl mb-16">

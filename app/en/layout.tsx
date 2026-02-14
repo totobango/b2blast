@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Sora, DM_Sans } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { OrganizationSchema } from "@/components/StructuredData";
 
-const sora = Sora({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700"] });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700", "800", "900"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: { default: "B2BLAST — B2B Paid Ads French ↔ English Markets", template: "%s | B2BLAST" },
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 
 export default function EnLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sora.variable} ${dmSans.variable}`}>
-      <body className="grain font-body bg-black text-white antialiased">
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="grain font-body bg-surface text-white antialiased">
         <a href="#main" className="skip-link">Skip to main content</a>
         <OrganizationSchema />
         <Header locale="en" />

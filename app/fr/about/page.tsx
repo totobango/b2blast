@@ -13,7 +13,7 @@ export default function AboutFR() {
 
   return (
     <>
-      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start gap-8">
             <div className="flex-shrink-0">
@@ -31,12 +31,12 @@ export default function AboutFR() {
         </div>
       </section>
 
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="pb-16 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h2 className="font-heading text-2xl font-bold text-white mb-8">Expérience</h2>
           <div className="space-y-6">
             {t.about.experience.map((exp) => (
-              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover">
+              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-cream/[0.03] p-6 sm:p-8 card-hover">
                 <div className="flex-shrink-0"><Image src={exp.logo} alt={`Logo ${exp.company}`} width={40} height={40} className="h-10 w-10 rounded-xl object-contain" /></div>
                 <div className="min-w-0">
                   <h3 className="font-heading font-semibold text-white">{exp.role} <span className="text-brand">@ {exp.company}</span></h3>
@@ -49,9 +49,9 @@ export default function AboutFR() {
         </div>
       </section>
 
-      <section className="pb-16 sm:pb-20 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-2xl bg-white/[0.03] border border-white/10 p-8 sm:p-10"><h2 className="font-heading text-xl font-bold text-white mb-3">Localisation & Disponibilité</h2><p className="text-gray-400 leading-relaxed">{t.about.location}</p></div></div></section>
+      <section className="pb-16 sm:pb-20 bg-surface"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-2xl bg-cream/[0.03] border border-white/10 p-8 sm:p-10"><h2 className="font-heading text-xl font-bold text-white mb-3">Localisation & Disponibilité</h2><p className="text-gray-400 leading-relaxed">{t.about.location}</p></div></div></section>
 
-      <section className="pb-20 sm:pb-28 bg-black"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center"><h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2><p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p><Link href="/fr/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link></div></div></section>
+      <section className="pb-20 sm:pb-28 bg-surface"><div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8"><div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center"><h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2><p className="mx-auto mt-4 max-w-xl text-lg text-gray-400">{t.cta.subtitle}</p><Link href="/fr/contact" className="btn-magnetic mt-8 inline-flex items-center rounded-lg bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/30">{t.cta.button}</Link></div></div></section>
     </>
   );
 }

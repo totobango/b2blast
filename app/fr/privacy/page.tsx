@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: "Politique de confidentialité", desc
 
 export default function PrivacyFR() {
   return (
-    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-black">
+    <section className="pt-32 pb-24 sm:pt-40 sm:pb-32 bg-surface">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <h1 className="font-heading text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">Politique de confidentialité</h1>
         <p className="text-sm text-gray-500 mb-12">Dernière mise à jour : février 2026</p>

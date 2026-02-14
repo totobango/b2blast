@@ -48,7 +48,7 @@ export default function ResourcesFR() {
   }
 
   return (
-    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-black">
+    <section className="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-surface">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mb-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 text-sm font-medium text-brand-light mb-6">

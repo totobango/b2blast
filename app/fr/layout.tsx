@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Sora, DM_Sans } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { OrganizationSchema } from "@/components/StructuredData";
 
-const sora = Sora({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700"] });
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-heading", display: "swap", weight: ["400", "500", "600", "700", "800", "900"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap", weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: { default: "B2BLAST — Paid Ads B2B Marchés Français ↔ Anglais", template: "%s | B2BLAST" },
-  description: "Expert paid ads B2B bilingue natif. LinkedIn, Google, Microsoft Ads pour SaaS français en expansion UK/US et entreprises internationales entrant en France.",
-  keywords: ["ads B2B", "LinkedIn ads", "Google ads B2B", "marketing bilingue", "SaaS français", "expansion internationale", "agence paid ads"],
+  description: "Expert paid ads B2B bilingue natif. LinkedIn, Google, Microsoft Ads pour SaaS français à l'international et entreprises internationales entrant en France.",
+  keywords: ["ads B2B", "LinkedIn ads", "Google ads B2B", "marketing bilingue", "SaaS français", "expansion internationale"],
   authors: [{ name: "Thomas Germain", url: "https://b2blast.com/fr/about" }],
   creator: "Thomas Germain",
   publisher: "B2BLAST",
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
 
 export default function FrLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${sora.variable} ${dmSans.variable}`}>
-      <body className="grain font-body bg-black text-white antialiased">
-        <a href="#main" className="skip-link">Aller au contenu principal</a>
+    <html lang="fr" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="grain font-body bg-surface text-white antialiased">
+        <a href="#main" className="skip-link">Aller au contenu</a>
         <OrganizationSchema />
         <Header locale="fr" />
         <main id="main">{children}</main>

@@ -1,14 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  /* === STRICT PALETTE: Violet / Noir / Blanc === */
-  --color-brand: #9e01e6;
-  --color-brand-light: #b44de8;
-  --color-brand-dark: #7a01b3;
-  --color-brand-glow: rgba(158, 1, 230, 0.25);
+  /* === V6 PALETTE: Charbon / Orange Brûlé / Crème === */
+  --color-brand: #E8630A;
+  --color-brand-light: #F28C38;
+  --color-brand-dark: #C44F00;
+  --color-brand-glow: rgba(232, 99, 10, 0.25);
 
-  --font-heading: "Sora", sans-serif;
-  --font-body: "DM Sans", sans-serif;
+  --color-surface: #1A1A1A;
+  --color-surface-light: #242424;
+  --color-surface-lighter: #2E2E2E;
+  --color-cream: #F5F0EB;
+  --color-cream-dark: #E8E0D8;
+
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
 }
 
 /* Smooth scrolling */
@@ -22,7 +28,7 @@ html {
   outline-offset: 2px;
 }
 
-/* Selection color */
+/* Selection */
 ::selection {
   background-color: var(--color-brand);
   color: white;
@@ -44,35 +50,56 @@ html {
 }
 
 /* ============================================
-   SCROLL REVEAL ANIMATIONS
+   FLUID TYPOGRAPHY
+   ============================================ */
+
+.fluid-h1 {
+  font-size: clamp(2.25rem, 1rem + 4vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.fluid-h2 {
+  font-size: clamp(1.75rem, 0.8rem + 3vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.fluid-h3 {
+  font-size: clamp(1.25rem, 0.6rem + 1.5vw, 1.5rem);
+  line-height: 1.2;
+}
+
+/* ============================================
+   SCROLL REVEAL — UPGRADED EASING
    ============================================ */
 
 .scroll-reveal-up {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(50px);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-left {
   opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(-50px);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-right {
   opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateX(50px);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-scale {
   opacity: 0;
-  transform: scale(0.92);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.9);
+  transition: opacity 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    transform 0.8s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .scroll-reveal-up.revealed,
@@ -84,13 +111,13 @@ html {
 }
 
 /* ============================================
-   HERO ANIMATIONS
+   HERO ANIMATIONS — STAGGERED ENTRANCE
    ============================================ */
 
-@keyframes hero-fade-in {
+@keyframes hero-slide-up {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -98,17 +125,22 @@ html {
   }
 }
 
+@keyframes hero-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .hero-animate {
   opacity: 0;
-  animation: hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: hero-slide-up 0.9s cubic-bezier(0.3, 0.8, 0.3, 1.1) forwards;
 }
 
 .hero-delay-1 { animation-delay: 0.1s; }
-.hero-delay-2 { animation-delay: 0.25s; }
-.hero-delay-3 { animation-delay: 0.4s; }
-.hero-delay-4 { animation-delay: 0.55s; }
-.hero-delay-5 { animation-delay: 0.7s; }
-.hero-delay-6 { animation-delay: 0.85s; }
+.hero-delay-2 { animation-delay: 0.3s; }
+.hero-delay-3 { animation-delay: 0.5s; }
+.hero-delay-4 { animation-delay: 0.65s; }
+.hero-delay-5 { animation-delay: 0.8s; }
+.hero-delay-6 { animation-delay: 1s; }
 
 /* ============================================
    AMBIENT ANIMATIONS
@@ -116,7 +148,7 @@ html {
 
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-15px); }
 }
 
 .animate-float-slow {
@@ -124,40 +156,51 @@ html {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.05); }
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
+  animation: pulse-glow 5s ease-in-out infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
 }
 
 /* ============================================
-   GRAIN TEXTURE
+   GRAIN TEXTURE (SVG Noise — premium)
    ============================================ */
 
 .grain::before {
   content: "";
   position: fixed;
   inset: 0;
-  opacity: 0.02;
+  opacity: 0.03;
   pointer-events: none;
   z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.06'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ============================================
-   MAGNETIC BUTTON
+   MAGNETIC BUTTON — overshoot easing
    ============================================ */
 
 .btn-magnetic {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.3, 0.8, 0.3, 1.1),
+    box-shadow 0.4s ease;
 }
 
 .btn-magnetic:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 40px -10px var(--color-brand-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px -8px var(--color-brand-glow);
 }
 
 .btn-magnetic:active {
@@ -165,16 +208,73 @@ html {
 }
 
 /* ============================================
-   CARD HOVER
+   CARD HOVER — glow border + lift
    ============================================ */
 
 .card-hover {
-  transition: border-color 0.3s ease, box-shadow 0.4s ease, transform 0.3s ease;
+  transition: border-color 0.4s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.3, 0.8, 0.3, 1.1);
 }
 
 .card-hover:hover {
-  border-color: rgba(158, 1, 230, 0.3);
-  box-shadow: 0 0 0 1px rgba(158, 1, 230, 0.1),
-    0 8px 40px -12px rgba(158, 1, 230, 0.15);
-  transform: translateY(-2px);
+  border-color: rgba(232, 99, 10, 0.35);
+  box-shadow: 0 0 0 1px rgba(232, 99, 10, 0.12),
+    0 10px 50px -12px rgba(232, 99, 10, 0.2);
+  transform: translateY(-3px);
+}
+
+/* ============================================
+   STACKING CARDS (position: sticky)
+   ============================================ */
+
+.stacking-card {
+  position: sticky;
+  top: 5rem;
+}
+
+/* ============================================
+   BENTO GRID
+   ============================================ */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   ORANGE GRADIENT TEXT
+   ============================================ */
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #E8630A 0%, #F28C38 50%, #E8630A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   DIVIDER LINE — animated
+   ============================================ */
+
+.divider-animated {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-brand), transparent);
+  opacity: 0.3;
+}
+
+/* ============================================
+   STAT NUMBER — large display
+   ============================================ */
+
+.stat-xxl {
+  font-size: clamp(3rem, 2rem + 5vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 900;
 }

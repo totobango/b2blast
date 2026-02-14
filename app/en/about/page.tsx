@@ -14,7 +14,7 @@ export default function AboutEN() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-black">
+      <section className="pt-32 pb-16 sm:pt-40 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-start gap-8">
             {/* Photo */}
@@ -46,12 +46,12 @@ export default function AboutEN() {
       </section>
 
       {/* Experience */}
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="pb-16 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h2 className="font-heading text-2xl font-bold text-white mb-8">Experience</h2>
           <div className="space-y-6">
             {t.about.experience.map((exp) => (
-              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 card-hover">
+              <div key={exp.company} className="flex gap-5 rounded-2xl border border-white/10 bg-cream/[0.03] p-6 sm:p-8 card-hover">
                 <div className="flex-shrink-0">
                   <Image
                     src={exp.logo}
@@ -75,9 +75,9 @@ export default function AboutEN() {
       </section>
 
       {/* Location */}
-      <section className="pb-16 sm:pb-20 bg-black">
+      <section className="pb-16 sm:pb-20 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-8 sm:p-10">
+          <div className="rounded-2xl bg-cream/[0.03] border border-white/10 p-8 sm:p-10">
             <h2 className="font-heading text-xl font-bold text-white mb-3">Location & Availability</h2>
             <p className="text-gray-400 leading-relaxed">{t.about.location}</p>
           </div>
@@ -85,7 +85,7 @@ export default function AboutEN() {
       </section>
 
       {/* CTA */}
-      <section className="pb-20 sm:pb-28 bg-black">
+      <section className="pb-20 sm:pb-28 bg-surface">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl bg-brand/10 border border-brand/20 px-8 py-16 sm:px-16 text-center">
             <h2 className="font-heading text-3xl font-bold text-white">{t.cta.title}</h2>

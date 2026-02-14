@@ -17,12 +17,12 @@ export default function AnimatedStat({ value, label }: AnimatedStatProps) {
   return (
     <div
       ref={ref as React.RefObject<HTMLDivElement>}
-      className="h-full rounded-2xl bg-black border border-white/10 p-6 sm:p-8 text-center group hover:border-brand/50 hover:bg-brand/5 transition-all duration-500"
+      className="h-full rounded-2xl bg-surface-light border border-white/[0.06] p-6 sm:p-8 text-center group hover:border-brand/40 transition-all duration-500"
     >
-      <p className="font-heading text-3xl sm:text-4xl font-bold text-brand tabular-nums">
+      <p className="font-heading stat-xxl text-gradient-brand tabular-nums">
         {prefix}{count}{suffix}
       </p>
-      <p className="mt-2 text-sm text-gray-500 group-hover:text-gray-400 transition-colors">
+      <p className="mt-3 text-sm text-gray-500 group-hover:text-gray-400 transition-colors">
         {label}
       </p>
     </div>
